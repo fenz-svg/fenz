@@ -4,3 +4,10 @@
 - Carpeta de proyecto estaba vacía; no se encontró rastro de la sesión anterior.
 - Se inicializó un repositorio git y este archivo de progreso para que el trabajo futuro quede registrado y no se pierda.
 - Próximo paso: pendiente de que el usuario indique en qué quiere trabajar.
+- Se identificó el proyecto activo: landing page "Fenz" (`fenz_tech_13.html` en Downloads).
+- Se armó panel de edición de contenido para el cliente con Decap CMS:
+  - `index.html`: página migrada, carga textos dinámicamente desde `content.json`.
+  - `content.json`: todos los textos editables (hero, servicios, proceso, precios, faq, contacto, footer).
+  - `admin/index.html` + `admin/config.yml`: panel Decap CMS configurado para editar `content.json`.
+  - `DEPLOY.md`: instrucciones para publicar en GitHub + Netlify (Identity + Git Gateway) e invitar al cliente.
+- Pendiente: el usuario debe crear el repo en GitHub y conectar Netlify (pasos en DEPLOY.md) para activar el panel.
