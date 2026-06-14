@@ -10,4 +10,6 @@
   - `content.json`: todos los textos editables (hero, servicios, proceso, precios, faq, contacto, footer).
   - `admin/index.html` + `admin/config.yml`: panel Decap CMS configurado para editar `content.json`.
   - `DEPLOY.md`: instrucciones para publicar en GitHub + Netlify (Identity + Git Gateway) e invitar al cliente.
-- Pendiente: el usuario debe crear el repo en GitHub y conectar Netlify (pasos en DEPLOY.md) para activar el panel.
+- Probado localmente con `npx http-server` (config en `.claude/launch.json`): hero, servicios, precios, proceso, faq y contacto cargan bien desde `content.json`, sin errores de consola. `/admin` carga el login de Decap CMS correctamente (no se puede loguear local, requiere Netlify Identity).
+- Repo creado por el usuario y código pusheado: https://github.com/fenz-svg/fenz (rama `main`).
+- Pendiente: conectar el repo a Netlify, activar Identity + Git Gateway, e invitar al cliente (pasos detallados en DEPLOY.md).
