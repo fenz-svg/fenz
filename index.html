@@ -732,7 +732,7 @@
           </a>
         </div>
       </div>
-      <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+      <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="615fb2cf-fd48-483a-8890-9d942220df60">
         <input type="hidden" name="subject" value="Nueva consulta desde la web de Fenz">
         <input type="text" name="name" placeholder="Tu nombre" required>
@@ -942,6 +942,23 @@ function setup(){
 window.addEventListener('resize', setup);
 setup();
 draw();
+
+/* Notificación de nuevo lead via n8n (email + WhatsApp) */
+document.getElementById('contact-form').addEventListener('submit', function(){
+  const form = this;
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    servicio: form.servicio.value,
+    mensaje: form.mensaje.value
+  };
+  fetch('https://fenzsupport.app.n8n.cloud/webhook/e703b4e7-2aa4-430f-8e44-75705d5cb48c', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+    keepalive: true
+  }).catch(() => {});
+});
 </script>
 
 </body>
