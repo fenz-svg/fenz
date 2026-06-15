@@ -13,3 +13,14 @@
 - Probado localmente con `npx http-server` (config en `.claude/launch.json`): hero, servicios, precios, proceso, faq y contacto cargan bien desde `content.json`, sin errores de consola. `/admin` carga el login de Decap CMS correctamente (no se puede loguear local, requiere Netlify Identity).
 - Repo creado por el usuario y código pusheado: https://github.com/fenz-svg/fenz (rama `main`).
 - Pendiente: conectar el repo a Netlify, activar Identity + Git Gateway, e invitar al cliente (pasos detallados en DEPLOY.md).
+
+## 2026-06-15
+- Sitio desplegado en Netlify: https://relaxed-marshmallow-ac29a3.netlify.app (deploys automáticos desde GitHub main).
+- Git Gateway resultó no funcional (Netlify lo está descontinuando para sitios nuevos: el botón "Enable" nunca persiste).
+- Se migró el backend de Decap CMS de `git-gateway` a `github` con OAuth:
+  - `admin/config.yml`: backend `github`, repo `fenz-svg/fenz`, base_url del sitio.
+  - `netlify/functions/auth.js` y `callback.js`: proveedor OAuth propio (Netlify Functions) que intermedia entre Decap CMS y GitHub.
+  - `netlify.toml`: redirige `/auth` y `/callback` a esas funciones.
+  - Variables de entorno en Netlify: `OAUTH_CLIENT_ID` y `OAUTH_CLIENT_SECRET` (de una OAuth App de GitHub "Fenz CMS").
+- Se agregó al cliente (guidogonza33@gmail.com) como colaborador con push access al repo `fenz-svg/fenz`.
+- Probado en el celular del cliente: `/admin` carga, login con GitHub funciona, panel "Contenido del sitio" visible. **CMS funcionando end-to-end.**
