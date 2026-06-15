@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: fenz-svg/fenz
   branch: main
+  base_url: https://relaxed-marshmallow-ac29a3.netlify.app
 
 publish_mode: simple
 media_folder: "images"
