@@ -954,8 +954,7 @@ document.getElementById('contact-form').addEventListener('submit', function(){
   };
   fetch('https://fenzsupport.app.n8n.cloud/webhook/e703b4e7-2aa4-430f-8e44-75705d5cb48c', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: new URLSearchParams(data),
     keepalive: true
   }).catch(() => {});
 });
