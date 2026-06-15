@@ -595,6 +595,26 @@
 </head>
 <body>
 
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+    // Si llega un link de invitación/recuperación, abre directo el modal correspondiente
+    window.netlifyIdentity.on("init", () => {
+      const params = new URLSearchParams(window.location.hash.replace("#", "?"));
+      if (params.get("invite_token") || params.get("confirmation_token") || params.get("recovery_token")) {
+        window.netlifyIdentity.open();
+      }
+    });
+  }
+</script>
+
 <nav>
   <div class="nav-inner">
     <div class="logo">
