@@ -1,0 +1,154 @@
+{
+  "hero": {
+    "eyebrow": "disponibilidad esta semana:6 lugares ",
+    "title_line1": "Páginas web a medida diseñadas para",
+    "title_highlight": "vender y destacar.",
+    "subtitle": "Impulsa tu marca con Fenz. Desarrollamos tiendas online efectivas, landing pages que convierten visitas en clientes y sitios institucionales que proyectan autoridad desde el primer día.",
+    "cta_primary": "Planes",
+    "cta_secondary": "Contactanos"
+  },
+  "servicios": {
+    "tag": "// servicios",
+    "title": "Tres formas de empezar",
+    "description": "No vendemos plantillas genéricas. Cada sitio se programa pensando en lo que tu negocio necesita mostrar y vender.",
+    "items": [
+      {
+        "number": "01",
+        "title": "Landing page",
+        "description": "Diseñada estratégicamente para convertir visitas en clientes potenciales. Ideal para el lanzamiento de un producto, servicio específico o campañas de anuncios de alto impacto.",
+        "delivery": "Entrega: 5-7 días",
+        "scope": "1 a 5 secciones"
+      },
+      {
+        "number": "02",
+        "title": "Sitio institucional",
+        "description": "Consolida la autoridad de tu empresa en el mundo digital. Estructura completa con secciones de quiénes somos, servicios, catálogo corporativo y canales directos de contacto.",
+        "delivery": "Entrega: 10-14 días",
+        "scope": "4 a 8 páginas"
+      },
+      {
+        "number": "03",
+        "title": "Tienda online",
+        "description": "Tu negocio abierto las 24 horas y vendiendo en piloto automático. Incluye catálogo interactivo, carrito de compras y pasarelas de pago automatizadas (Mercado Pago).",
+        "delivery": "Entrega: 2-3 semanas",
+        "scope": "Productos ilimitados"
+      }
+    ]
+  },
+  "proceso": {
+    "tag": "// cómo trabajamos",
+    "title": "Un proceso sin sorpresas",
+    "description": "Sabés en qué etapa está tu sitio en todo momento, y al final te entregamos accesos y un tutorial para que lo manejes vos.",
+    "items": [
+      {
+        "label": "paso 1",
+        "title": "Relevamiento",
+        "description": "Una llamada corta para entender tu negocio, qué necesitás mostrar y qué referencias te gustan."
+      },
+      {
+        "label": "paso 2",
+        "title": "Diseño",
+        "description": "Te mostramos una propuesta visual antes de programar nada, para ajustar colores, textos y orden."
+      },
+      {
+        "label": "paso 3",
+        "title": "Desarrollo",
+        "description": "Programamos el sitio, lo probamos en celular y computadora, y lo dejamos listo para publicar."
+      },
+      {
+        "label": "paso 4",
+        "title": "Entrega",
+        "description": "Publicamos el sitio, te damos los accesos al panel de administración y un video explicando cómo usarlo."
+      }
+    ]
+  },
+  "precios": {
+    "tag": "// precios",
+    "title": "Planes claros, sin letra chica",
+    "description": "Precio fijo acordado antes de empezar. El hosting y el dominio se cotizan aparte según el proveedor que elijas.",
+    "items": [
+      {
+        "name": "Landing",
+        "sub": "Para presentar tu negocio y captar contactos",
+        "price": "USD 250",
+        "period": "pago único",
+        "featured": false,
+        "badge": "",
+        "features": [
+          "1 página, hasta 5 secciones",
+          "Diseño adaptado a tu marca",
+          "Formulario de contacto",
+          "Optimizado para celular"
+        ],
+        "cta": "Elegir landing"
+      },
+      {
+        "name": "Institucional",
+        "sub": "Para mostrar todo tu negocio con varias secciones",
+        "price": "USD 480",
+        "period": "pago único",
+        "featured": true,
+        "badge": "Más elegido",
+        "features": [
+          "Hasta 6 páginas",
+          "Panel para editar textos e imágenes",
+          "Formulario de contacto",
+          "Tutorial de uso incluido",
+          "1 mes de soporte post-entrega"
+        ],
+        "cta": "Elegir institucional"
+      },
+      {
+        "name": "Tienda online",
+        "sub": "Para vender productos con pagos online",
+        "price": "USD 750",
+        "period": "pago único",
+        "featured": false,
+        "badge": "",
+        "features": [
+          "Catálogo y carrito de compras",
+          "Integración con Mercado Pago",
+          "Panel para gestionar productos y pedidos",
+          "Tutorial de uso incluido",
+          "1 mes de soporte post-entrega"
+        ],
+        "cta": "Elegir tienda"
+      }
+    ]
+  },
+  "faq": {
+    "tag": "// preguntas frecuentes",
+    "title": "Antes de escribirnos",
+    "description": "Las dudas que más nos preguntan los clientes que recién empiezan.",
+    "items": [
+      {
+        "question": "¿El precio incluye el hosting y el dominio?",
+        "answer": "No. El hosting (donde vive tu sitio) y el dominio (tu dirección web) se pagan aparte, directamente al proveedor. Te ayudamos a elegir uno acorde a tu presupuesto, normalmente desde unos pocos dólares al mes."
+      },
+      {
+        "question": "¿Puedo editar el contenido yo mismo después?",
+        "answer": "Sí. En los planes Institucional y Tienda incluimos un panel de administración y un video tutorial para que puedas cambiar textos, imágenes y productos sin depender de nosotros."
+      },
+      {
+        "question": "¿Cuánto tarda en estar listo mi sitio?",
+        "answer": "Depende del plan: entre 5 y 21 días desde que confirmamos el diseño. Los tiempos exactos se acuerdan en la primera llamada según tu caso."
+      },
+      {
+        "question": "¿Qué pasa si necesito cambios después de la entrega?",
+        "answer": "Los planes Institucional y Tienda incluyen un mes de soporte para ajustes menores. Después de ese periodo, los cambios se cotizan por hora o con un plan de mantenimiento mensual."
+      }
+    ]
+  },
+  "contacto": {
+    "title": "Contanos sobre tu proyecto",
+    "description": "Respondemos en menos de 24 horas con los próximos pasos y una fecha tentativa de entrega.",
+    "email": "fenzsupport@gmail.com",
+    "whatsapp_number": "5491127473914",
+    "whatsapp_message": "Hola, quiero info sobre mi sitio web",
+    "instagram_handle": "@the.victoriastore",
+    "instagram_url": "https://www.instagram.com/the.victoriastore/"
+  },
+  "footer": {
+    "copyright": "© 2026 Fenz — Desarrollo web digital."
+  }
+}
