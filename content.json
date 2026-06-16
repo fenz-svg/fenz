@@ -117,9 +117,9 @@
     ]
   },
   "faq": {
-    "tag": "// preguntas frecuentes",
-    "title": "Antes de escribirnos",
-    "description": "Las dudas que más nos preguntan los clientes que recién empiezan.",
+    "tag": "// +Info",
+    "title": "Preguntas frecuentes",
+    "description": "Lo que debes saber",
     "items": [
       {
         "question": "¿El precio incluye el hosting y el dominio?",
