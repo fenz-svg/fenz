@@ -70,7 +70,7 @@
       {
         "name": "Landing",
         "sub": "Para presentar tu negocio y captar contactos",
-        "price": "USD 250",
+        "price": "desde USD 100",
         "period": "pago único",
         "featured": false,
         "badge": "",
@@ -85,7 +85,7 @@
       {
         "name": "Institucional",
         "sub": "Para mostrar todo tu negocio con varias secciones",
-        "price": "USD 480",
+        "price": "desde USD 200",
         "period": "pago único",
         "featured": true,
         "badge": "Más elegido",
@@ -101,7 +101,7 @@
       {
         "name": "Tienda online",
         "sub": "Para vender productos con pagos online",
-        "price": "USD 750",
+        "price": "desde USD 400",
         "period": "pago único",
         "featured": false,
         "badge": "",
