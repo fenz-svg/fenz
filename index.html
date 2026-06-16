@@ -778,8 +778,13 @@
 <script>
 /* ===== Carga de contenido editable desde content.json ===== */
 async function loadContent(){
-  const res = await fetch('content.json?v=' + Date.now(), { cache: 'no-store' });
-  const data = await res.json();
+  let data;
+  if (window.__CONTENT__) {
+    data = window.__CONTENT__;
+  } else {
+    const res = await fetch('content.json?v=' + Date.now(), { cache: 'no-store' });
+    data = await res.json();
+  }
 
   // Hero
   document.getElementById('hero-eyebrow').textContent = data.hero.eyebrow;
