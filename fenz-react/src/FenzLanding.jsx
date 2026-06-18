@@ -102,7 +102,7 @@ function Header() {
               onMouseLeave={e => (e.target.style.color = C.muted)}
               >{n}</a>
             ))}
-            <a href="mailto:fenzsupport@gmail.com" style={{
+            <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer" style={{
               background: C.accent, color: C.bg,
               padding: "0.5rem 1.25rem", borderRadius: 8,
               fontWeight: 700, fontSize: "0.88rem",
@@ -140,7 +140,7 @@ function Header() {
               {n}
             </a>
           ))}
-          <a href="mailto:fenzsupport@gmail.com" style={{
+          <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer" style={{
             display: "block", marginTop: "1.25rem",
             background: C.accent, color: C.bg,
             padding: "0.8rem", borderRadius: 8,
@@ -572,7 +572,7 @@ function Philosophy() {
           Tu visión merece una ejecución impecable. Empecemos a construirla.
         </p>
 
-        <a href="mailto:fenzsupport@gmail.com" style={{
+        <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer" style={{
           display: "inline-block",
           background: "transparent",
           border: "2px solid #FFD700",
@@ -605,7 +605,7 @@ function FloatingDock() {
   const items = [
     { icon: <WhatsAppIcon />, href: "https://wa.me/5491127473914", label: "WhatsApp", bg: "linear-gradient(135deg,#25D366,#128C7E)", glow: "rgba(37,211,102,0.4)" },
     { icon: <InstagramIcon />, href: "https://instagram.com/fenz.sitiosdigitales", label: "Instagram", bg: "linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)", glow: "rgba(220,39,67,0.35)" },
-    { icon: <MailIcon />, href: "mailto:fenzsupport@gmail.com", label: "Email", bg: "linear-gradient(135deg,#FFD700,#FFA500)", glow: "rgba(255,215,0,0.4)" },
+    { icon: <MailIcon />, href: "https://wa.me/5491127473914", label: "Email", bg: "linear-gradient(135deg,#FFD700,#FFA500)", glow: "rgba(255,215,0,0.4)" },
   ];
 
   return (
