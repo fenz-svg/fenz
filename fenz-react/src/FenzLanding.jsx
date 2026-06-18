@@ -337,44 +337,86 @@ function Services() {
   );
 }
 
+/* ─── Wave Mesh SVG (left background) ──────────────────────── */
+function WaveMesh() {
+  const pts = [];
+  const cols = 14, rows = 8;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const x = (c / (cols - 1)) * 500;
+      const wave = Math.sin((c / cols) * Math.PI * 2 + r * 0.7) * 28 + Math.sin((c / cols) * Math.PI + r) * 14;
+      const y = (r / (rows - 1)) * 320 + wave;
+      pts.push({ x, y, r, c });
+    }
+  }
+  const lines = [];
+  pts.forEach((p, i) => {
+    if (p.c < cols - 1) lines.push([p, pts[i + 1]]);
+    if (p.r < rows - 1) lines.push([p, pts[i + cols]]);
+    if (p.c < cols - 1 && p.r < rows - 1) lines.push([p, pts[i + cols + 1]]);
+  });
+  return (
+    <svg style={{ position: "absolute", left: 0, bottom: 0, width: "45%", height: "90%", pointerEvents: "none", zIndex: 0, opacity: 0.28 }}
+      viewBox="0 0 500 380" preserveAspectRatio="xMinYMax meet">
+      {lines.map(([a, b], i) => (
+        <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
+          stroke="#4dd9f0" strokeWidth="0.7" opacity="0.6" />
+      ))}
+      {pts.map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r="1.8" fill="#7ee8f8" opacity="0.7" />
+      ))}
+    </svg>
+  );
+}
+
 /* ─── Methodology ───────────────────────────────────────────── */
 const STEPS = [
-  { num: "01", title: "Discovery & Estrategia", desc: "Analizamos tu negocio, audiencia y objetivos para construir una hoja de ruta clara y efectiva." },
+  { num: "01", title: "Discovery & Estrategia", desc: "Analizamos tu negocio, audiencias y objetivos para construir una hoja de ruta clara y efectiva." },
   { num: "02", title: "Diseño UI/UX",           desc: "Interfaces que cautivan y guían al usuario hacia la conversión con cada microinteracción." },
   { num: "03", title: "Desarrollo Ágil",         desc: "Código limpio, modular y escalable. Iteraciones rápidas con resultados medibles en cada sprint." },
   { num: "04", title: "Lanzamiento & Optimización", desc: "Deploy, monitoreo continuo y mejoras basadas en datos reales para maximizar el rendimiento." },
 ];
 
-function Step({ step, index, last }) {
-  const [ref, visible] = useVisible();
+function MethodStep({ step, index, last }) {
+  const [ref, visible] = useVisible(0.1);
   return (
     <div ref={ref} style={{
-      display: "flex", gap: "1.5rem", alignItems: "flex-start",
+      display: "flex", gap: "1rem", alignItems: "flex-start",
       opacity: visible ? 1 : 0,
-      transform: visible ? "translateX(0)" : "translateX(-24px)",
-      transition: `opacity 0.65s ${index * 120}ms, transform 0.65s ${index * 120}ms`,
+      transform: visible ? "translateX(0)" : "translateX(30px)",
+      transition: `opacity 0.6s ${index * 130}ms, transform 0.6s ${index * 130}ms`,
     }}>
+      {/* Number + line */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
         <div style={{
-          width: 50, height: 50, borderRadius: "50%",
-          background: visible ? C.accentDim : C.glass,
-          border: `2px solid ${visible ? C.accent : C.glassBorder}`,
+          width: 46, height: 46, borderRadius: "50%",
+          background: "linear-gradient(135deg, #1a2e1a 0%, #0a1a10 100%)",
+          border: "2px solid #00e5d4",
+          boxShadow: "0 0 14px rgba(0,229,212,0.5)",
           display: "flex", alignItems: "center", justifyContent: "center",
           color: C.accent, fontWeight: 800, fontSize: "0.82rem",
-          boxShadow: visible ? "0 0 18px rgba(255,215,0,0.18)" : "none",
-          transition: "all 0.6s",
+          flexShrink: 0, zIndex: 1,
         }}>{step.num}</div>
         {!last && (
           <div style={{
-            width: 2, flex: 1, minHeight: 60,
-            background: "linear-gradient(to bottom, rgba(255,215,0,0.4), rgba(255,215,0,0.03))",
-            marginTop: 6,
+            width: 2, flex: 1, minHeight: 16,
+            background: "linear-gradient(to bottom, #00e5d4, rgba(0,229,212,0.1))",
+            boxShadow: "0 0 6px rgba(0,229,212,0.4)",
+            marginTop: 2, marginBottom: 2,
           }} />
         )}
       </div>
-      <div style={{ paddingBottom: last ? 0 : "2.5rem", paddingTop: "0.55rem" }}>
-        <h3 style={{ fontSize: "1.08rem", fontWeight: 700, color: "#fff", marginBottom: "0.4rem" }}>{step.title}</h3>
-        <p style={{ color: C.muted, fontSize: "0.88rem", lineHeight: 1.7, maxWidth: 440 }}>{step.desc}</p>
+      {/* Card */}
+      <div style={{
+        flex: 1,
+        background: "linear-gradient(145deg, #07111e 0%, #0a1828 100%)",
+        border: "1.5px solid rgba(0,210,200,0.5)",
+        borderRadius: 12, padding: "0.9rem 1.1rem",
+        marginBottom: last ? 0 : "0.6rem",
+        boxShadow: "0 0 8px rgba(0,210,200,0.1)",
+      }}>
+        <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#fff", marginBottom: "0.3rem" }}>{step.title}</h3>
+        <p style={{ color: "rgba(190,215,220,0.72)", fontSize: "0.84rem", lineHeight: 1.6 }}>{step.desc}</p>
       </div>
     </div>
   );
@@ -387,31 +429,37 @@ function Methodology() {
 
   return (
     <section id="metodologia" style={{
-      padding: isMobile ? "5rem 1.5rem" : "7rem 2rem",
-      background: "rgba(255,255,255,0.02)",
+      padding: isMobile ? "5rem 1.5rem" : "6rem 2rem",
+      position: "relative", overflow: "hidden",
+      background: "linear-gradient(160deg, #060e1c 0%, #050c18 60%, #081220 100%)",
     }}>
+      <WaveMesh />
       <div style={{
-        maxWidth: 1200, margin: "0 auto",
-        display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-        gap: isMobile ? "3rem" : "5rem", alignItems: "start",
+        maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1,
+        display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.1fr",
+        gap: isMobile ? "3rem" : "4rem", alignItems: "center",
       }}>
+        {/* Left text */}
         <div ref={ref} style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(18px)",
           transition: "opacity 0.6s, transform 0.6s",
         }}>
-          <p style={{ color: C.accent, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
+          <p style={{ color: C.accent, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
             Metodología
           </p>
-          <h2 style={{ fontSize: isMobile ? "1.9rem" : "clamp(1.9rem,3.5vw,3rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.025em", marginBottom: "1rem" }}>
+          <h2 style={{ fontSize: isMobile ? "1.8rem" : "clamp(1.9rem,3.2vw,2.8rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.025em", marginBottom: "1.2rem", lineHeight: 1.15 }}>
             Proceso comprobado,<br/>resultados garantizados.
           </h2>
-          <p style={{ color: C.muted, fontSize: "1rem", lineHeight: 1.75, maxWidth: 420 }}>
+          <p style={{ color: "rgba(190,215,220,0.72)", fontSize: "0.97rem", lineHeight: 1.75, maxWidth: 400 }}>
             Cada proyecto sigue nuestra metodología de 4 etapas que garantiza resultados medibles y una experiencia fluida de principio a fin.
           </p>
         </div>
-        <div>
-          {STEPS.map((s, i) => <Step key={s.num} step={s} index={i} last={i === STEPS.length - 1} />)}
+        {/* Right steps */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {STEPS.map((s, i) => (
+            <MethodStep key={s.num} step={s} index={i} last={i === STEPS.length - 1} />
+          ))}
         </div>
       </div>
     </section>
