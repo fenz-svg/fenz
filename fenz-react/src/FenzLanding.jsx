@@ -169,19 +169,7 @@ function Hero() {
         muted
         loop
         playsInline
-        style={isMobile ? {
-          /* MÓVIL: video a ancho completo, sin recortar los costados.
-             Se muestra a tamaño natural (16:9), centrado verticalmente.
-             El espacio arriba/abajo lo cubren gradientes oscuros. */
-          position: "absolute",
-          width: "100%",
-          height: "auto",
-          top: "50%",
-          left: 0,
-          transform: "translateY(-50%)",
-          zIndex: 0,
-        } : {
-          /* DESKTOP: cover clásico */
+        style={{
           position: "absolute",
           top: 0, left: 0,
           width: "100%", height: "100%",
@@ -199,22 +187,6 @@ function Hero() {
         background: "rgba(0,0,0,0.3)",
         zIndex: 1,
       }} />
-
-      {/* MÓVIL: fades arriba y abajo para integrar el video con el fondo oscuro */}
-      {isMobile && (
-        <>
-          <div style={{
-            position: "absolute", top: 0, left: 0, right: 0, height: "30%",
-            background: "linear-gradient(to bottom, #0A0F1E 0%, rgba(10,15,30,0.6) 60%, transparent 100%)",
-            zIndex: 2, pointerEvents: "none",
-          }} />
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0, height: "30%",
-            background: "linear-gradient(to top, #0A0F1E 0%, rgba(10,15,30,0.6) 60%, transparent 100%)",
-            zIndex: 2, pointerEvents: "none",
-          }} />
-        </>
-      )}
 
       {/* Scroll indicator */}
       <div style={{
