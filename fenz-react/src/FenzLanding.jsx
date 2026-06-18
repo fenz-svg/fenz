@@ -153,50 +153,141 @@ function Header() {
   );
 }
 
-/* ─── Hero (Video fullscreen) ───────────────────────────────── */
-function Hero() {
-  const w = useWidth();
-  const isMobile = w < 768;
+/* ─── Mobile Hero (portrait-native, sin video) ──────────────── */
+function MobileHero() {
+  const [ref, visible] = useVisible(0.01);
+  const nodePos = [[30,80],[350,120],[80,300],[310,260],[195,420],[60,550],[330,480],[195,680],[100,750],[290,700]];
+  const nodeLines = [[0,1],[0,2],[1,3],[2,4],[3,4],[2,5],[4,6],[5,7],[6,7],[7,8],[7,9]];
   return (
     <section className="hero-section" style={{
-      position: "relative",
-      width: "100%",
-      overflow: "hidden",
+      position: "relative", width: "100%", overflow: "hidden",
+      background: "linear-gradient(160deg, #0A0F1E 0%, #060e1c 60%, #0d1530 100%)",
+      display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center",
     }}>
-      {/* Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{
-          position: "absolute",
-          top: 0, left: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
-          objectPosition: "center center",
-          zIndex: 0,
-        }}
-      >
-        <source src="hero-video.mp4" type="video/mp4" />
-      </video>
+      {/* Fondo constelación teal */}
+      <svg style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"none", zIndex:0, opacity:0.18 }}
+        viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice">
+        {nodeLines.map(([a,b],i) => (
+          <line key={i} x1={nodePos[a][0]} y1={nodePos[a][1]} x2={nodePos[b][0]} y2={nodePos[b][1]}
+            stroke="#00e5d4" strokeWidth="0.8" opacity="0.3"/>
+        ))}
+        {nodePos.map(([x,y],i) => (
+          <g key={i}>
+            <circle cx={x} cy={y} r="16" fill="#00e5d4" opacity="0.07"/>
+            <circle cx={x} cy={y} r="3" fill="#00e5d4" opacity="0.75"/>
+          </g>
+        ))}
+      </svg>
 
-      {/* Overlay oscuro */}
+      {/* Brillo dorado superior */}
       <div style={{
-        position: "absolute", inset: 0,
-        background: "rgba(0,0,0,0.3)",
-        zIndex: 1,
-      }} />
+        position:"absolute", top:0, left:"50%", transform:"translateX(-50%)",
+        width:"90%", height:"45%",
+        background:"radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.08) 0%, transparent 70%)",
+        pointerEvents:"none", zIndex:0,
+      }}/>
+
+      {/* Contenido principal */}
+      <div ref={ref} style={{
+        position:"relative", zIndex:1, textAlign:"center",
+        padding:"0 1.75rem", width:"100%", maxWidth:460, margin:"0 auto",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: "opacity 0.9s, transform 0.9s",
+      }}>
+        {/* Chip */}
+        <div style={{
+          display:"inline-flex", alignItems:"center", gap:"0.5rem",
+          background:"rgba(0,229,212,0.1)", border:"1px solid rgba(0,229,212,0.3)",
+          borderRadius:999, padding:"0.35rem 1rem", marginBottom:"1.5rem",
+        }}>
+          <span style={{ width:6, height:6, borderRadius:"50%", background:"#00e5d4", display:"block" }}/>
+          <span style={{ color:"#00e5d4", fontSize:"0.72rem", fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase" }}>
+            Desarrollo Web Digital
+          </span>
+        </div>
+
+        {/* Headline */}
+        <h1 style={{
+          fontSize:"clamp(2rem, 8.5vw, 2.75rem)", fontWeight:800, color:"#fff",
+          lineHeight:1.18, letterSpacing:"-0.025em", marginBottom:"1.25rem",
+        }}>
+          Transformamos tu visión en una{" "}
+          <span style={{ color:C.accent }}>máquina de ventas</span>{" "}
+          digital.
+        </h1>
+
+        {/* Descripción */}
+        <p style={{
+          color:"rgba(190,215,225,0.72)", fontSize:"0.97rem", lineHeight:1.7,
+          marginBottom:"2rem",
+        }}>
+          Expertos en Landing Pages, E-commerce y Sitios Institucionales. Resultados medibles desde el día uno.
+        </p>
+
+        {/* CTA WhatsApp */}
+        <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer"
+          style={{
+            display:"flex", alignItems:"center", justifyContent:"center", gap:"0.6rem",
+            background:C.accent, color:C.bg,
+            padding:"1rem 1.5rem", borderRadius:10,
+            fontWeight:700, fontSize:"1rem",
+            textDecoration:"none",
+            boxShadow:"0 4px 28px rgba(255,215,0,0.35)",
+            minHeight:52, marginBottom:"1.5rem",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.opacity="0.9"; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity="1"; }}
+        >
+          <WhatsAppIcon /> Iniciar Consultoría
+        </a>
+
+        {/* Chips de servicios */}
+        <div style={{ display:"flex", flexWrap:"wrap", gap:"0.5rem", justifyContent:"center" }}>
+          {["Landing Pages","E-commerce","Sitios Institucionales"].map(s => (
+            <span key={s} style={{
+              background:"rgba(255,255,255,0.05)",
+              border:"1px solid rgba(255,255,255,0.1)",
+              borderRadius:999, padding:"0.3rem 0.85rem",
+              fontSize:"0.74rem", color:"rgba(255,255,255,0.55)", fontWeight:500,
+            }}>{s}</span>
+          ))}
+        </div>
+      </div>
 
       {/* Scroll indicator */}
       <div style={{
-        position: "absolute", bottom: "2.5rem", left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 3, display: "flex", flexDirection: "column",
-        alignItems: "center", gap: "0.4rem",
-        color: "rgba(255,255,255,0.5)", fontSize: "0.75rem",
-        letterSpacing: "0.1em", textTransform: "uppercase",
-        animation: "bounce 2s infinite",
+        position:"absolute", bottom:"2rem", left:"50%", transform:"translateX(-50%)",
+        zIndex:2, color:"rgba(255,255,255,0.35)", animation:"bounce 2s infinite",
+      }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Hero: video en desktop, MobileHero en móvil ───────────── */
+function Hero() {
+  const w = useWidth();
+  if (w < 768) return <MobileHero />;
+  return (
+    <section className="hero-section" style={{
+      position: "relative", width: "100%", overflow: "hidden",
+    }}>
+      <video autoPlay muted loop playsInline style={{
+        position:"absolute", top:0, left:0,
+        width:"100%", height:"100%",
+        objectFit:"cover", objectPosition:"center center", zIndex:0,
+      }}>
+        <source src="hero-video.mp4" type="video/mp4" />
+      </video>
+      <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.3)", zIndex:1 }} />
+      <div style={{
+        position:"absolute", bottom:"2.5rem", left:"50%", transform:"translateX(-50%)",
+        zIndex:3, color:"rgba(255,255,255,0.5)", animation:"bounce 2s infinite",
       }}>
         <style>{`
           @keyframes bounce {
