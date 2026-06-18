@@ -218,43 +218,72 @@ function ServiceCard({ icon, title, desc, detail, delay }) {
   return (
     <div ref={ref} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? "rgba(255,255,255,0.07)" : C.glass,
-        border: `1px solid ${hovered ? "rgba(255,215,0,0.35)" : C.glassBorder}`,
+        background: hovered
+          ? "linear-gradient(135deg, rgba(0,40,50,0.85) 0%, rgba(0,20,35,0.9) 100%)"
+          : "linear-gradient(135deg, rgba(0,30,45,0.75) 0%, rgba(0,15,30,0.8) 100%)",
+        border: `1px solid ${hovered ? "rgba(0,220,200,0.6)" : "rgba(0,180,170,0.35)"}`,
         borderRadius: 16, padding: "2rem", cursor: "default",
-        backdropFilter: "blur(12px)",
-        boxShadow: hovered ? "0 0 32px rgba(255,215,0,0.08)" : "none",
+        backdropFilter: "blur(16px)",
+        boxShadow: hovered
+          ? "0 0 28px rgba(0,200,190,0.18), inset 0 0 40px rgba(0,180,170,0.05)"
+          : "0 0 12px rgba(0,180,170,0.06), inset 0 0 20px rgba(0,160,160,0.03)",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(28px)",
         transition: `opacity 0.7s ${delay}ms, transform 0.7s ${delay}ms, background 0.3s, border 0.3s, box-shadow 0.3s`,
       }}>
+      {/* Icon box */}
       <div style={{
-        width: 48, height: 48, borderRadius: 12,
-        background: C.accentDim, display: "flex", alignItems: "center", justifyContent: "center",
-        marginBottom: "1.25rem",
+        width: 52, height: 52, borderRadius: 12,
+        background: "linear-gradient(135deg, #b8860b 0%, #FFD700 50%, #daa520 100%)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        marginBottom: "1.4rem",
+        boxShadow: "0 4px 18px rgba(255,215,0,0.3)",
       }}>{icon}</div>
       <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#fff", marginBottom: "0.4rem" }}>{title}</h3>
       <p style={{ color: C.accent, fontSize: "0.88rem", fontWeight: 600, marginBottom: "0.75rem" }}>{desc}</p>
-      <p style={{ color: C.muted, fontSize: "0.875rem", lineHeight: 1.65 }}>{detail}</p>
+      <p style={{ color: "rgba(180,210,220,0.75)", fontSize: "0.875rem", lineHeight: 1.65 }}>{detail}</p>
     </div>
+  );
+}
+
+/* ─── Network background SVG ────────────────────────────────── */
+function NetworkBg() {
+  return (
+    <svg style={{ position: "absolute", top: 0, right: 0, width: "45%", height: "100%", opacity: 0.35, pointerEvents: "none" }}
+      viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice">
+      {/* Nodes */}
+      {[[400,40],[460,120],[380,200],[440,280],[320,160],[480,200],[350,80],[420,340],[300,300],[460,60]].map(([x,y],i) => (
+        <circle key={i} cx={x} cy={y} r="4" fill="#00d4c8" opacity="0.8"/>
+      ))}
+      {/* Lines */}
+      {[
+        [400,40,460,120],[460,120,380,200],[380,200,440,280],[320,160,400,40],
+        [320,160,380,200],[460,120,480,200],[480,200,440,280],[350,80,460,60],
+        [350,80,320,160],[460,60,400,40],[300,300,440,280],[300,300,380,200],
+        [420,340,300,300],[420,340,440,280],
+      ].map(([x1,y1,x2,y2],i) => (
+        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#00b8b0" strokeWidth="0.8" opacity="0.5"/>
+      ))}
+    </svg>
   );
 }
 
 /* ─── Services ──────────────────────────────────────────────── */
 const SERVICES = [
   {
-    icon: <Zap size={22} color={C.accent} />,
+    icon: <Zap size={24} color="#0A0F1E" />,
     title: "Landing Pages",
     desc: "Diseño que vende. Conversión pura.",
     detail: "Páginas de alto impacto optimizadas para convertir visitantes en clientes desde el primer segundo.",
   },
   {
-    icon: <ShoppingBag size={22} color={C.accent} />,
+    icon: <ShoppingBag size={24} color="#0A0F1E" />,
     title: "E-commerce",
     desc: "Tiendas que escalan. Robustez y seguridad.",
     detail: "Soluciones de comercio electrónico diseñadas para crecer con tu negocio, con máxima performance.",
   },
   {
-    icon: <Building2 size={22} color={C.accent} />,
+    icon: <Building2 size={24} color="#0A0F1E" />,
     title: "Sitios Institucionales",
     desc: "Autoridad digital. Identidad sólida y vanguardista.",
     detail: "Presencia digital que proyecta confianza y solidez para tu marca o empresa.",
@@ -266,8 +295,13 @@ function Services() {
   const w = useWidth();
 
   return (
-    <section id="servicios" style={{ padding: w < 768 ? "5rem 1.5rem" : "7rem 2rem" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <section id="servicios" style={{
+      padding: w < 768 ? "5rem 1.5rem" : "7rem 2rem",
+      position: "relative", overflow: "hidden",
+      background: "linear-gradient(180deg, #0A0F1E 0%, #060d1a 100%)",
+    }}>
+      <NetworkBg />
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div ref={ref} style={{
           textAlign: "center", marginBottom: "3.5rem",
           opacity: visible ? 1 : 0,
@@ -281,7 +315,7 @@ function Services() {
             Soluciones que transforman negocios
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: w < 768 ? "1fr" : "repeat(3,1fr)", gap: "1.25rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: w < 768 ? "1fr" : "repeat(3,1fr)", gap: "1.5rem" }}>
           {SERVICES.map((s, i) => <ServiceCard key={s.title} {...s} delay={i * 130} />)}
         </div>
       </div>
