@@ -210,6 +210,43 @@ function Hero() {
   );
 }
 
+/* ─── Network background SVG ────────────────────────────────── */
+function NetworkBg() {
+  const nodes = [
+    [490,10],[440,55],[480,100],[420,140],[460,185],[390,90],[430,230],
+    [370,170],[410,280],[350,50],[480,250],[370,310],[440,330],[500,180],
+    [360,230],[500,310],[420,380],[340,130],
+  ];
+  const lines = [
+    [0,1],[1,2],[1,5],[2,3],[3,5],[3,7],[4,6],[4,13],[5,9],[6,10],
+    [6,12],[7,17],[7,9],[8,11],[8,14],[10,13],[10,15],[11,14],[12,15],
+    [12,16],[13,1],[15,16],[14,7],[9,1],[2,13],
+  ];
+  return (
+    <svg style={{ position:"absolute", top:0, right:0, width:"50%", height:"100%", pointerEvents:"none", zIndex:0 }}
+      viewBox="0 0 500 420" preserveAspectRatio="xMaxYMin slice">
+      <defs>
+        <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#00e5d4" stopOpacity="1"/>
+          <stop offset="100%" stopColor="#00b8ae" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      {lines.map(([a,b],i) => (
+        <line key={i}
+          x1={nodes[a][0]} y1={nodes[a][1]}
+          x2={nodes[b][0]} y2={nodes[b][1]}
+          stroke="#00c8be" strokeWidth="0.9" opacity="0.4"/>
+      ))}
+      {nodes.map(([x,y],i) => (
+        <g key={i}>
+          <circle cx={x} cy={y} r="6" fill="#00e5d4" opacity="0.12"/>
+          <circle cx={x} cy={y} r="3" fill="#00e5d4" opacity="0.9"/>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 /* ─── Service Card ──────────────────────────────────────────── */
 function ServiceCard({ icon, title, desc, detail, delay }) {
   const [ref, visible] = useVisible();
@@ -218,72 +255,49 @@ function ServiceCard({ icon, title, desc, detail, delay }) {
   return (
     <div ref={ref} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered
-          ? "linear-gradient(135deg, rgba(0,40,50,0.85) 0%, rgba(0,20,35,0.9) 100%)"
-          : "linear-gradient(135deg, rgba(0,30,45,0.75) 0%, rgba(0,15,30,0.8) 100%)",
-        border: `1px solid ${hovered ? "rgba(0,220,200,0.6)" : "rgba(0,180,170,0.35)"}`,
-        borderRadius: 16, padding: "2rem", cursor: "default",
-        backdropFilter: "blur(16px)",
+        background: "linear-gradient(145deg, #07111e 0%, #0a1828 100%)",
+        border: `1.5px solid ${hovered ? "#00e5d4" : "rgba(0,210,200,0.55)"}`,
+        borderRadius: 14, padding: "1.75rem", cursor: "default",
         boxShadow: hovered
-          ? "0 0 28px rgba(0,200,190,0.18), inset 0 0 40px rgba(0,180,170,0.05)"
-          : "0 0 12px rgba(0,180,170,0.06), inset 0 0 20px rgba(0,160,160,0.03)",
+          ? "0 0 22px rgba(0,229,212,0.25), 0 0 60px rgba(0,180,170,0.08), inset 0 0 30px rgba(0,180,170,0.04)"
+          : "0 0 10px rgba(0,210,200,0.12), inset 0 0 20px rgba(0,150,145,0.03)",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(28px)",
-        transition: `opacity 0.7s ${delay}ms, transform 0.7s ${delay}ms, background 0.3s, border 0.3s, box-shadow 0.3s`,
+        transition: `opacity 0.7s ${delay}ms, transform 0.7s ${delay}ms, border-color 0.3s, box-shadow 0.3s`,
+        position: "relative",
       }}>
       {/* Icon box */}
       <div style={{
         width: 52, height: 52, borderRadius: 12,
-        background: "linear-gradient(135deg, #b8860b 0%, #FFD700 50%, #daa520 100%)",
+        background: "linear-gradient(145deg, #0e1f30 0%, #162840 100%)",
+        border: "1px solid rgba(0,200,190,0.3)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        marginBottom: "1.4rem",
-        boxShadow: "0 4px 18px rgba(255,215,0,0.3)",
+        marginBottom: "1.25rem",
+        boxShadow: "0 2px 12px rgba(0,180,170,0.15)",
       }}>{icon}</div>
-      <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#fff", marginBottom: "0.4rem" }}>{title}</h3>
-      <p style={{ color: C.accent, fontSize: "0.88rem", fontWeight: 600, marginBottom: "0.75rem" }}>{desc}</p>
-      <p style={{ color: "rgba(180,210,220,0.75)", fontSize: "0.875rem", lineHeight: 1.65 }}>{detail}</p>
+      <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#fff", marginBottom: "0.35rem" }}>{title}</h3>
+      <p style={{ color: "#FFD700", fontSize: "0.87rem", fontWeight: 600, marginBottom: "0.7rem" }}>{desc}</p>
+      <p style={{ color: "rgba(190,215,220,0.72)", fontSize: "0.86rem", lineHeight: 1.65 }}>{detail}</p>
     </div>
-  );
-}
-
-/* ─── Network background SVG ────────────────────────────────── */
-function NetworkBg() {
-  return (
-    <svg style={{ position: "absolute", top: 0, right: 0, width: "45%", height: "100%", opacity: 0.35, pointerEvents: "none" }}
-      viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice">
-      {/* Nodes */}
-      {[[400,40],[460,120],[380,200],[440,280],[320,160],[480,200],[350,80],[420,340],[300,300],[460,60]].map(([x,y],i) => (
-        <circle key={i} cx={x} cy={y} r="4" fill="#00d4c8" opacity="0.8"/>
-      ))}
-      {/* Lines */}
-      {[
-        [400,40,460,120],[460,120,380,200],[380,200,440,280],[320,160,400,40],
-        [320,160,380,200],[460,120,480,200],[480,200,440,280],[350,80,460,60],
-        [350,80,320,160],[460,60,400,40],[300,300,440,280],[300,300,380,200],
-        [420,340,300,300],[420,340,440,280],
-      ].map(([x1,y1,x2,y2],i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#00b8b0" strokeWidth="0.8" opacity="0.5"/>
-      ))}
-    </svg>
   );
 }
 
 /* ─── Services ──────────────────────────────────────────────── */
 const SERVICES = [
   {
-    icon: <Zap size={24} color="#0A0F1E" />,
+    icon: <Zap size={24} color="#FFD700" />,
     title: "Landing Pages",
     desc: "Diseño que vende. Conversión pura.",
     detail: "Páginas de alto impacto optimizadas para convertir visitantes en clientes desde el primer segundo.",
   },
   {
-    icon: <ShoppingBag size={24} color="#0A0F1E" />,
+    icon: <ShoppingBag size={24} color="#FFD700" />,
     title: "E-commerce",
     desc: "Tiendas que escalan. Robustez y seguridad.",
     detail: "Soluciones de comercio electrónico diseñadas para crecer con tu negocio, con máxima performance.",
   },
   {
-    icon: <Building2 size={24} color="#0A0F1E" />,
+    icon: <Building2 size={24} color="#FFD700" />,
     title: "Sitios Institucionales",
     desc: "Autoridad digital. Identidad sólida y vanguardista.",
     detail: "Presencia digital que proyecta confianza y solidez para tu marca o empresa.",
@@ -298,7 +312,7 @@ function Services() {
     <section id="servicios" style={{
       padding: w < 768 ? "5rem 1.5rem" : "7rem 2rem",
       position: "relative", overflow: "hidden",
-      background: "linear-gradient(180deg, #0A0F1E 0%, #060d1a 100%)",
+      background: "linear-gradient(160deg, #060e1c 0%, #040a15 60%, #07111f 100%)",
     }}>
       <NetworkBg />
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
@@ -308,7 +322,7 @@ function Services() {
           transform: visible ? "translateY(0)" : "translateY(18px)",
           transition: "opacity 0.6s, transform 0.6s",
         }}>
-          <p style={{ color: C.accent, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
+          <p style={{ color: C.accent, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
             Servicios
           </p>
           <h2 style={{ fontSize: w < 768 ? "1.9rem" : "clamp(1.9rem,3.5vw,3rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.025em" }}>
