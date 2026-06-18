@@ -289,12 +289,6 @@ function Hero() {
         position:"absolute", bottom:"2.5rem", left:"50%", transform:"translateX(-50%)",
         zIndex:3, color:"rgba(255,255,255,0.5)", animation:"bounce 2s infinite",
       }}>
-        <style>{`
-          @keyframes bounce {
-            0%,100% { transform: translateX(-50%) translateY(0); }
-            50%      { transform: translateX(-50%) translateY(6px); }
-          }
-        `}</style>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <polyline points="6 9 12 15 18 9"/>
         </svg>
@@ -787,9 +781,14 @@ export default function FenzLanding() {
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+        body { overflow-x: hidden; }
         ::selection { background: rgba(255,215,0,0.25); }
         .hero-section { height: 100vh; }
         @supports (height: 100dvh) { .hero-section { height: 100dvh; } }
+        @keyframes bounce {
+          0%,100% { transform: translateX(-50%) translateY(0); }
+          50%      { transform: translateX(-50%) translateY(6px); }
+        }
         @media (max-width: 767px) {
           .service-card { padding: 1.25rem !important; }
           .method-card { padding: 0.75rem 0.9rem !important; }
