@@ -155,6 +155,8 @@ function Header() {
 
 /* ─── Hero (Video fullscreen) ───────────────────────────────── */
 function Hero() {
+  const w = useWidth();
+  const isMobile = w < 768;
   return (
     <section className="hero-section" style={{
       position: "relative",
@@ -172,6 +174,9 @@ function Hero() {
           top: 0, left: 0,
           width: "100%", height: "100%",
           objectFit: "cover",
+          /* En móvil portrait, el video landscape queda muy recortado en los costados.
+             Mostramos la parte superior-central del frame donde suele estar el sujeto. */
+          objectPosition: isMobile ? "center 30%" : "center center",
           zIndex: 0,
         }}
       >
@@ -181,15 +186,31 @@ function Hero() {
       {/* Overlay oscuro sutil */}
       <div style={{
         position: "absolute", inset: 0,
-        background: "rgba(0,0,0,0.35)",
+        background: isMobile ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0.35)",
         zIndex: 1,
       }} />
+
+      {/* En móvil: gradientes en los bordes para suavizar el recorte lateral del video */}
+      {isMobile && (
+        <>
+          <div style={{
+            position: "absolute", left: 0, top: 0, width: "18%", height: "100%",
+            background: "linear-gradient(to right, rgba(10,15,30,0.85), transparent)",
+            zIndex: 2, pointerEvents: "none",
+          }} />
+          <div style={{
+            position: "absolute", right: 0, top: 0, width: "18%", height: "100%",
+            background: "linear-gradient(to left, rgba(10,15,30,0.85), transparent)",
+            zIndex: 2, pointerEvents: "none",
+          }} />
+        </>
+      )}
 
       {/* Scroll indicator */}
       <div style={{
         position: "absolute", bottom: "2.5rem", left: "50%",
         transform: "translateX(-50%)",
-        zIndex: 2, display: "flex", flexDirection: "column",
+        zIndex: 3, display: "flex", flexDirection: "column",
         alignItems: "center", gap: "0.4rem",
         color: "rgba(255,255,255,0.5)", fontSize: "0.75rem",
         letterSpacing: "0.1em", textTransform: "uppercase",
