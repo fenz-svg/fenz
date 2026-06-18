@@ -1,0 +1,30 @@
+=== STATUS ===
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   index.html
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    MANUAL_CLIENTE.md
+	modified:   index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	MANUAL_CLIENTE (2).pdf
+	MANUAL_CLIENTE.pdf
+	git_log.txt
+	push.bat
+
+=== ADD ===
+warning: in the working copy of 'index.html', LF will be replaced by CRLF the next time Git touches it
+=== COMMIT ===
+[main 11c5042] Rediseno cyan neon + mockups SVG
+ 1 file changed, 844 insertions(+), 966 deletions(-)
+=== PUSH ===
+To https://github.com/fenz-svg/fenz.git
+   11a5dce..11c5042  main -> main
+=== LISTO ===
