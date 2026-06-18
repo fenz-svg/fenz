@@ -153,132 +153,58 @@ function Header() {
   );
 }
 
-/* ─── Hero Image ────────────────────────────────────────────── */
-function HeroImage() {
-  return (
-    <div style={{ position: "relative" }}>
-      {/* Glow behind image */}
-      <div style={{
-        position: "absolute", top: "10%", left: "5%", right: "5%", bottom: "5%",
-        background: "radial-gradient(ellipse, rgba(255,215,0,0.10) 0%, transparent 70%)",
-        filter: "blur(55px)", pointerEvents: "none", zIndex: 0,
-      }} />
-      <img
-        src="hero-ecommerce.png"
-        alt="E-commerce digital"
-        style={{
-          position: "relative", zIndex: 1,
-          width: "100%", maxWidth: 580,
-          borderRadius: 16,
-          boxShadow: "0 8px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06)",
-          display: "block",
-        }}
-      />
-    </div>
-  );
-}
-
-/* ─── Hero ──────────────────────────────────────────────────── */
+/* ─── Hero (Video fullscreen) ───────────────────────────────── */
 function Hero() {
-  const [ref, visible] = useVisible();
-  const w = useWidth();
-  const isMobile = w < 768;
-
   return (
     <section style={{
-      minHeight: "100vh", display: "flex", alignItems: "center",
-      padding: isMobile ? "7rem 1.5rem 4rem" : "8rem 2rem 5rem",
-      position: "relative", overflow: "hidden",
+      position: "relative",
+      width: "100%",
+      height: "100vh",
+      overflow: "hidden",
     }}>
-      {/* Background radials */}
-      <div aria-hidden style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        background: [
-          "radial-gradient(ellipse 60% 50% at 25% 55%, rgba(255,215,0,0.06) 0%, transparent 100%)",
-          "radial-gradient(ellipse 50% 60% at 75% 20%, rgba(99,102,241,0.09) 0%, transparent 100%)",
-        ].join(", "),
+      {/* Video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{
+          position: "absolute",
+          top: 0, left: 0,
+          width: "100%", height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
+      >
+        <source src="hero-video.mp4" type="video/mp4" />
+      </video>
+
+      {/* Overlay oscuro sutil */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "rgba(0,0,0,0.35)",
+        zIndex: 1,
       }} />
 
-      <div ref={ref} style={{
-        maxWidth: 1200, margin: "0 auto", width: "100%",
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-        gap: isMobile ? "3rem" : "4rem",
-        alignItems: "center",
+      {/* Scroll indicator */}
+      <div style={{
+        position: "absolute", bottom: "2.5rem", left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 2, display: "flex", flexDirection: "column",
+        alignItems: "center", gap: "0.4rem",
+        color: "rgba(255,255,255,0.5)", fontSize: "0.75rem",
+        letterSpacing: "0.1em", textTransform: "uppercase",
+        animation: "bounce 2s infinite",
       }}>
-        {/* Text */}
-        <div style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "translateY(0)" : "translateY(28px)",
-          transition: "opacity 0.8s, transform 0.8s",
-        }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            background: C.accentDim, border: `1px solid ${C.accentBorder}`,
-            borderRadius: 100, padding: "0.3rem 0.9rem",
-            fontSize: "0.78rem", fontWeight: 700, color: C.accent,
-            letterSpacing: "0.04em", textTransform: "uppercase",
-            marginBottom: "1.5rem",
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent, display: "inline-block" }}/>
-            Agencia Digital Premium
-          </div>
-
-          <h1 style={{
-            fontSize: isMobile ? "2.1rem" : "clamp(2.4rem,4.5vw,3.8rem)",
-            fontWeight: 800, lineHeight: 1.1,
-            letterSpacing: "-0.03em", color: "#fff",
-            marginBottom: "1.4rem",
-          }}>
-            Construimos el{" "}
-            <span style={{ color: C.accent }}>futuro digital</span>
-            {" "}de tu empresa.
-          </h1>
-
-          <p style={{
-            fontSize: "1.05rem", lineHeight: 1.75,
-            color: C.muted, marginBottom: "2.5rem",
-            maxWidth: 480,
-          }}>
-            Transformamos ideas complejas en motores de ventas de alto rendimiento.
-            Desarrollo a medida, diseño premium y escalabilidad sin límites.
-          </p>
-
-          <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
-            <a href="mailto:fenzsupport@gmail.com" style={{
-              background: C.accent, color: C.bg,
-              padding: "0.85rem 2rem", borderRadius: 10,
-              fontWeight: 700, fontSize: "0.95rem",
-              textDecoration: "none", transition: "opacity 0.2s, transform 0.2s, box-shadow 0.2s",
-              boxShadow: "0 0 28px rgba(255,215,0,0.28)",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 0 40px rgba(255,215,0,0.45)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(255,215,0,0.28)"; }}
-            >Iniciar Proyecto →</a>
-
-            <a href="#servicios" style={{
-              background: "transparent",
-              border: `1px solid rgba(255,255,255,0.18)`,
-              color: "#fff", padding: "0.85rem 2rem",
-              borderRadius: 10, fontWeight: 600, fontSize: "0.95rem",
-              textDecoration: "none", transition: "border-color 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.45)")}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)")}
-            >Ver Servicios</a>
-          </div>
-        </div>
-
-        {/* Laptop */}
-        {!isMobile && (
-          <div style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(28px)",
-            transition: "opacity 1s 0.25s, transform 1s 0.25s",
-          }}>
-            <HeroImage />
-          </div>
-        )}
+        <style>{`
+          @keyframes bounce {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50%      { transform: translateX(-50%) translateY(6px); }
+          }
+        `}</style>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
       </div>
     </section>
   );
