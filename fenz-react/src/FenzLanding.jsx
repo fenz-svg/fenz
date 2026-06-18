@@ -466,56 +466,126 @@ function Methodology() {
   );
 }
 
+/* ─── Philosophy BG: nodes left + golden city map right ─────── */
+function PhilosophyBg() {
+  // Left: network nodes
+  const nodes = [[60,40],[120,90],[40,150],[100,180],[160,120],[200,60],[80,230],[140,260],[200,200],[240,140],[30,300],[110,310]];
+  const lines = [[0,1],[0,5],[1,2],[1,4],[2,3],[3,6],[3,7],[4,5],[4,8],[5,9],[6,7],[7,8],[8,9],[8,10],[9,10],[10,11]];
+
+  // Right: golden circular city map
+  const rings = [40, 80, 125, 170, 210];
+  const cx = 260, cy = 220;
+  const radialLines = Array.from({length: 18}, (_, i) => (i * 20) * Math.PI / 180);
+  const streets = [
+    [[cx-210,cy-30],[cx+210,cy-30]],[[cx-210,cy+40],[cx+210,cy+40]],
+    [[cx-210,cy+100],[cx+210,cy+100]],[[cx-210,cy-100],[cx+210,cy-100]],
+    [[cx-50,cy-210],[cx-50,cy+210]],[[cx+50,cy-210],[cx+50,cy+210]],
+    [[cx+120,cy-200],[cx-80,cy+200]],[[cx-120,cy-200],[cx+80,cy+200]],
+  ];
+
+  return (
+    <>
+      {/* Left network */}
+      <svg style={{ position:"absolute", left:0, top:0, width:"38%", height:"100%", pointerEvents:"none", zIndex:0, opacity:0.3 }}
+        viewBox="0 0 280 360" preserveAspectRatio="xMinYMid meet">
+        {lines.map(([a,b],i) => (
+          <line key={i} x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]}
+            stroke="#6ad4e8" strokeWidth="0.8" opacity="0.55"/>
+        ))}
+        {nodes.map(([x,y],i) => (
+          <g key={i}>
+            <circle cx={x} cy={y} r="5" fill="#4dd9f0" opacity="0.1"/>
+            <circle cx={x} cy={y} r="2.5" fill="#7ee8f8" opacity="0.85"/>
+          </g>
+        ))}
+      </svg>
+
+      {/* Right golden city map */}
+      <svg style={{ position:"absolute", right:0, top:"50%", transform:"translateY(-50%)", width:"36%", height:"110%", pointerEvents:"none", zIndex:0, opacity:0.22 }}
+        viewBox="0 0 520 440" preserveAspectRatio="xMaxYMid meet">
+        <defs>
+          <radialGradient id="cityGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FFD700" stopOpacity="0.6"/>
+            <stop offset="100%" stopColor="#b8860b" stopOpacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx={cx} cy={cy} r="215" fill="url(#cityGlow)" opacity="0.4"/>
+        {rings.map((r,i) => (
+          <circle key={i} cx={cx} cy={cy} r={r} fill="none" stroke="#FFD700" strokeWidth={i===0?"2":"1"} opacity={0.5 - i*0.06}/>
+        ))}
+        {radialLines.map((angle,i) => (
+          <line key={i} x1={cx} y1={cy}
+            x2={cx + Math.cos(angle)*210} y2={cy + Math.sin(angle)*210}
+            stroke="#FFD700" strokeWidth="0.6" opacity="0.3"/>
+        ))}
+        {streets.map(([[x1,y1],[x2,y2]],i) => (
+          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+            stroke="#daa520" strokeWidth="1.2" opacity="0.35"
+            strokeDasharray={i%2===0?"none":"6,4"}/>
+        ))}
+        <circle cx={cx} cy={cy} r="8" fill="#FFD700" opacity="0.9"/>
+        <circle cx={cx} cy={cy} r="4" fill="#fff" opacity="0.8"/>
+      </svg>
+    </>
+  );
+}
+
 /* ─── Philosophy / CTA ──────────────────────────────────────── */
 function Philosophy() {
   const [ref, visible] = useVisible();
   const w = useWidth();
 
   return (
-    <section id="nosotros" style={{ padding: w < 768 ? "5rem 1.5rem" : "7rem 2rem" }}>
-      <div style={{ maxWidth: 860, margin: "0 auto" }}>
-        <div ref={ref} style={{
-          background: C.glass,
-          border: `1px solid ${C.glassBorder}`,
-          borderRadius: 24, padding: w < 768 ? "2.5rem 1.5rem" : "4.5rem 3.5rem",
-          backdropFilter: "blur(12px)", textAlign: "center",
-          opacity: visible ? 1 : 0,
-          transform: visible ? "scale(1)" : "scale(0.97)",
-          transition: "opacity 0.8s, transform 0.8s",
+    <section id="nosotros" style={{
+      padding: w < 768 ? "5rem 1.5rem" : "7rem 2rem",
+      position: "relative", overflow: "hidden",
+      background: "linear-gradient(160deg, #060e1c 0%, #050b18 50%, #07101e 100%)",
+    }}>
+      <PhilosophyBg />
+      <div ref={ref} style={{
+        maxWidth: 780, margin: "0 auto", textAlign: "center",
+        position: "relative", zIndex: 1,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: "opacity 0.8s, transform 0.8s",
+      }}>
+        <p style={{ color: C.accent, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "1.75rem" }}>
+          Filosofía
+        </p>
+
+        <blockquote style={{
+          fontSize: w < 768 ? "1.3rem" : "clamp(1.4rem,2.6vw,2rem)",
+          fontWeight: 700, color: "#fff", lineHeight: 1.45,
+          letterSpacing: "-0.01em", marginBottom: "1.75rem", fontStyle: "normal",
         }}>
-          <p style={{ color: C.accent, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "1.5rem" }}>
-            Filosofía
-          </p>
-          <blockquote style={{
-            fontSize: w < 768 ? "1.3rem" : "clamp(1.35rem,2.8vw,2rem)",
-            fontWeight: 700, color: "#fff", lineHeight: 1.45,
-            letterSpacing: "-0.02em", marginBottom: "2rem", fontStyle: "normal",
-          }}>
-            "Más que código, impulsamos tu evolución. En Fenz, somos arquitectos de soluciones digitales obsesionados con el rendimiento."
-          </blockquote>
+          "Más que código, impulsamos tu evolución. En Fenz, somos arquitectos de soluciones digitales obsesionados con el rendimiento."
+        </blockquote>
 
-          <div style={{
-            width: 56, height: 3,
-            background: "linear-gradient(to right, #FFD700, rgba(255,215,0,0.2))",
-            borderRadius: 999, margin: "0 auto 2.25rem",
-          }} />
+        {/* Gold divider */}
+        <div style={{
+          width: 60, height: 3,
+          background: "linear-gradient(to right, rgba(255,215,0,0.2), #FFD700, rgba(255,215,0,0.2))",
+          borderRadius: 999, margin: "0 auto 1.75rem",
+        }} />
 
-          <p style={{ color: C.muted, fontSize: "1rem", lineHeight: 1.75, marginBottom: "2.25rem", maxWidth: 520, margin: "0 auto 2.25rem" }}>
-            Tu visión merece una ejecución impecable. Empecemos a construirla.
-          </p>
+        <p style={{ color: "rgba(200,215,225,0.7)", fontSize: "1rem", lineHeight: 1.75, marginBottom: "2.25rem", maxWidth: 480, margin: "0 auto 2.25rem" }}>
+          Tu visión merece una ejecución impecable. Empecemos a construirla.
+        </p>
 
-          <a href="mailto:fenzsupport@gmail.com" style={{
-            display: "inline-block",
-            background: C.accent, color: C.bg,
-            padding: "0.95rem 2.5rem", borderRadius: 10,
-            fontWeight: 700, fontSize: "1rem",
-            textDecoration: "none", transition: "opacity 0.2s, transform 0.2s, box-shadow 0.2s",
-            boxShadow: "0 0 28px rgba(255,215,0,0.28)",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 0 44px rgba(255,215,0,0.45)"; }}
-          onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(255,215,0,0.28)"; }}
-          >Iniciar Consultoría →</a>
-        </div>
+        <a href="mailto:fenzsupport@gmail.com" style={{
+          display: "inline-block",
+          background: "transparent",
+          border: "2px solid #FFD700",
+          color: "#FFD700",
+          padding: "0.9rem 2.5rem", borderRadius: 8,
+          fontWeight: 700, fontSize: "1rem",
+          textDecoration: "none",
+          transition: "background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s",
+          boxShadow: "0 0 18px rgba(255,215,0,0.18)",
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = "#FFD700"; e.currentTarget.style.color = "#0A0F1E"; e.currentTarget.style.boxShadow = "0 0 36px rgba(255,215,0,0.45)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#FFD700"; e.currentTarget.style.boxShadow = "0 0 18px rgba(255,215,0,0.18)"; e.currentTarget.style.transform = "translateY(0)"; }}
+        >Iniciar Consultoría →</a>
       </div>
     </section>
   );
