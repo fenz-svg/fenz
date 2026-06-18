@@ -79,10 +79,10 @@ function Header() {
       backdropFilter: scrolled ? "blur(16px)" : "none",
       borderBottom: scrolled ? `1px solid ${C.glassBorder}` : "none",
       transition: "background 0.35s, border 0.35s",
-      padding: "0 2rem",
+      padding: w < 768 ? "0 1rem" : "0 2rem",
     }}>
       <div style={{
-        maxWidth: 1200, margin: "0 auto", height: 68,
+        maxWidth: 1200, margin: "0 auto", height: 64,
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         {/* Logo */}
@@ -143,9 +143,9 @@ function Header() {
           <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer" style={{
             display: "block", marginTop: "1.25rem",
             background: C.accent, color: C.bg,
-            padding: "0.8rem", borderRadius: 8,
+            padding: "0.9rem", borderRadius: 8,
             fontWeight: 700, fontSize: "1rem", textAlign: "center",
-            textDecoration: "none",
+            textDecoration: "none", minHeight: 48,
           }}>Consultoría</a>
         </div>
       )}
@@ -156,10 +156,9 @@ function Header() {
 /* ─── Hero (Video fullscreen) ───────────────────────────────── */
 function Hero() {
   return (
-    <section style={{
+    <section className="hero-section" style={{
       position: "relative",
       width: "100%",
-      height: "100vh",
       overflow: "hidden",
     }}>
       {/* Video */}
@@ -212,6 +211,8 @@ function Hero() {
 
 /* ─── Network background SVG ────────────────────────────────── */
 function NetworkBg() {
+  const w = useWidth();
+  if (w < 768) return null;
   const nodes = [
     [490,10],[440,55],[480,100],[420,140],[460,185],[390,90],[430,230],
     [370,170],[410,280],[350,50],[480,250],[370,310],[440,330],[500,180],
@@ -339,6 +340,8 @@ function Services() {
 
 /* ─── Wave Mesh SVG (left background) ──────────────────────── */
 function WaveMesh() {
+  const w = useWidth();
+  if (w < 768) return null;
   const pts = [];
   const cols = 14, rows = 8;
   for (let r = 0; r < rows; r++) {
@@ -468,6 +471,8 @@ function Methodology() {
 
 /* ─── Philosophy BG: nodes left + golden city map right ─────── */
 function PhilosophyBg() {
+  const w = useWidth();
+  if (w < 768) return null;
   // Left: network nodes
   const nodes = [[60,40],[120,90],[40,150],[100,180],[160,120],[200,60],[80,230],[140,260],[200,200],[240,140],[30,300],[110,310]];
   const lines = [[0,1],[0,5],[1,2],[1,4],[2,3],[3,6],[3,7],[4,5],[4,8],[5,9],[6,7],[7,8],[8,9],[8,10],[9,10],[10,11]];
@@ -545,6 +550,7 @@ function Philosophy() {
       <div ref={ref} style={{
         maxWidth: 780, margin: "0 auto", textAlign: "center",
         position: "relative", zIndex: 1,
+        padding: w < 768 ? "0 0.5rem" : "0",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(20px)",
         transition: "opacity 0.8s, transform 0.8s",
@@ -573,7 +579,7 @@ function Philosophy() {
         </p>
 
         <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer" style={{
-          display: "inline-block",
+          display: w < 768 ? "block" : "inline-block",
           background: "transparent",
           border: "2px solid #FFD700",
           color: "#FFD700",
@@ -582,6 +588,9 @@ function Philosophy() {
           textDecoration: "none",
           transition: "background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s",
           boxShadow: "0 0 18px rgba(255,215,0,0.18)",
+          textAlign: "center",
+          minHeight: 48,
+          lineHeight: "1.5",
         }}
         onMouseEnter={e => { e.currentTarget.style.background = "#FFD700"; e.currentTarget.style.color = "#0A0F1E"; e.currentTarget.style.boxShadow = "0 0 36px rgba(255,215,0,0.45)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
         onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#FFD700"; e.currentTarget.style.boxShadow = "0 0 18px rgba(255,215,0,0.18)"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -595,6 +604,8 @@ function Philosophy() {
 function FloatingDock() {
   const [show, setShow] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const w = useWidth();
+  const isMobile = w < 768;
 
   useEffect(() => {
     const h = () => setShow(window.scrollY > 180);
@@ -610,8 +621,8 @@ function FloatingDock() {
 
   return (
     <div style={{
-      position: "fixed", bottom: "2rem", right: "2rem",
-      display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.7rem",
+      position: "fixed", bottom: isMobile ? "1rem" : "2rem", right: isMobile ? "1rem" : "2rem",
+      display: "flex", flexDirection: "column", alignItems: "flex-end", gap: isMobile ? "0.5rem" : "0.7rem",
       zIndex: 200,
       opacity: show ? 1 : 0,
       transform: show ? "translateY(0)" : "translateY(16px)",
@@ -661,7 +672,7 @@ function Footer() {
   return (
     <footer style={{
       borderTop: `1px solid ${C.glassBorder}`,
-      padding: "2rem",
+      padding: "1.5rem 1rem",
       textAlign: "center",
     }}>
       <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.82rem" }}>
@@ -683,6 +694,13 @@ export default function FenzLanding() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         ::selection { background: rgba(255,215,0,0.25); }
+        .hero-section { height: 100vh; }
+        @supports (height: 100dvh) { .hero-section { height: 100dvh; } }
+        @media (max-width: 767px) {
+          .service-card { padding: 1.25rem !important; }
+          .method-card { padding: 0.75rem 0.9rem !important; }
+          .philosophy-quote { padding: 0 0.5rem; }
+        }
       `}</style>
       <Header />
       <Hero />
