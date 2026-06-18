@@ -169,38 +169,48 @@ function Hero() {
         muted
         loop
         playsInline
-        style={{
+        style={isMobile ? {
+          /* MÓVIL: video a ancho completo, sin recortar los costados.
+             Se muestra a tamaño natural (16:9), centrado verticalmente.
+             El espacio arriba/abajo lo cubren gradientes oscuros. */
+          position: "absolute",
+          width: "100%",
+          height: "auto",
+          top: "50%",
+          left: 0,
+          transform: "translateY(-50%)",
+          zIndex: 0,
+        } : {
+          /* DESKTOP: cover clásico */
           position: "absolute",
           top: 0, left: 0,
           width: "100%", height: "100%",
           objectFit: "cover",
-          /* En móvil portrait, el video landscape queda muy recortado en los costados.
-             Mostramos la parte superior-central del frame donde suele estar el sujeto. */
-          objectPosition: isMobile ? "center 30%" : "center center",
+          objectPosition: "center center",
           zIndex: 0,
         }}
       >
         <source src="hero-video.mp4" type="video/mp4" />
       </video>
 
-      {/* Overlay oscuro sutil */}
+      {/* Overlay oscuro */}
       <div style={{
         position: "absolute", inset: 0,
-        background: isMobile ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0.35)",
+        background: "rgba(0,0,0,0.3)",
         zIndex: 1,
       }} />
 
-      {/* En móvil: gradientes en los bordes para suavizar el recorte lateral del video */}
+      {/* MÓVIL: fades arriba y abajo para integrar el video con el fondo oscuro */}
       {isMobile && (
         <>
           <div style={{
-            position: "absolute", left: 0, top: 0, width: "18%", height: "100%",
-            background: "linear-gradient(to right, rgba(10,15,30,0.85), transparent)",
+            position: "absolute", top: 0, left: 0, right: 0, height: "30%",
+            background: "linear-gradient(to bottom, #0A0F1E 0%, rgba(10,15,30,0.6) 60%, transparent 100%)",
             zIndex: 2, pointerEvents: "none",
           }} />
           <div style={{
-            position: "absolute", right: 0, top: 0, width: "18%", height: "100%",
-            background: "linear-gradient(to left, rgba(10,15,30,0.85), transparent)",
+            position: "absolute", bottom: 0, left: 0, right: 0, height: "30%",
+            background: "linear-gradient(to top, #0A0F1E 0%, rgba(10,15,30,0.6) 60%, transparent 100%)",
             zIndex: 2, pointerEvents: "none",
           }} />
         </>
