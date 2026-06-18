@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FarmaDemo — Tu Farmacia Online</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#222;}
+  a{text-decoration:none;color:inherit;}
+  button{cursor:pointer;border:none;outline:none;}
+
+  /* ── TOP BAR ── */
+  .topbar{background:#fff;border-bottom:1px solid #eee;padding:7px 0;text-align:center;font-size:13px;font-weight:600;color:#444;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .topbar svg{width:18px;height:18px;flex-shrink:0;}
+
+  /* ── HEADER ── */
+  .header{background:#3aa535;padding:12px 24px;}
+  .header-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;}
+  .logo{font-size:2.1rem;font-weight:900;color:#fff;letter-spacing:-1px;white-space:nowrap;flex-shrink:0;}
+  .logo span{color:#fff;opacity:.85;}
+  .search-wrap{flex:1;display:flex;background:#fff;border-radius:6px;overflow:hidden;max-width:680px;margin:0 auto;}
+  .search-wrap input{flex:1;border:none;padding:11px 16px;font-size:15px;outline:none;color:#333;}
+  .search-wrap button{background:#2d8f29;color:#fff;padding:0 20px;font-size:18px;transition:background .2s;}
+  .search-wrap button:hover{background:#237020;}
+  .header-right{display:flex;align-items:center;gap:18px;flex-shrink:0;}
+  .header-social{display:flex;gap:10px;color:#fff;}
+  .header-social a{color:#fff;opacity:.9;transition:opacity .2s;}
+  .header-social a:hover{opacity:1;}
+  .header-social svg{width:20px;height:20px;}
+  .header-action{display:flex;align-items:center;gap:6px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+  .header-action:hover{opacity:.85;}
+  .header-action svg{width:22px;height:22px;}
+  .cart-badge{background:#ff6600;color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;margin-left:-6px;margin-top:-10px;}
+
+  /* ── NAV ── */
+  .nav{background:#fff;border-bottom:2px solid #e8e8e8;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+  .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:0 24px;overflow-x:auto;scrollbar-width:none;}
+  .nav-inner::-webkit-scrollbar{display:none;}
+  .nav-item{padding:13px 14px;font-size:14px;font-weight:600;color:#333;white-space:nowrap;cursor:pointer;transition:color .2s;border-bottom:3px solid transparent;}
+  .nav-item:hover{color:#3aa535;border-bottom-color:#3aa535;}
+  .nav-item.active{background:#3aa535;color:#fff;border-radius:6px 6px 0 0;border-bottom-color:#3aa535;}
+  .nav-item.wpp{background:#25D366;color:#fff;border-radius:6px;padding:8px 14px;display:flex;align-items:center;gap:6px;margin:6px 0;}
+  .nav-item.wpp svg{width:16px;height:16px;}
+  .nav-item.revista{background:#222;color:#fff;border-radius:6px;padding:8px 14px;margin:6px 0;}
+
+  /* ── MAIN CONTAINER ── */
+  .main{max-width:1280px;margin:0 auto;padding:20px 24px;}
+
+  /* ── HERO BANNER ── */
+  .banner-wrap{border-radius:12px;overflow:hidden;margin-bottom:24px;position:relative;background:#1a7fc1;}
+  .banner-slide{display:none;position:relative;}
+  .banner-slide.active{display:flex;}
+  .banner-slide-1{background:linear-gradient(120deg,#1565c0 0%,#1a85d5 50%,#42a5f5 100%);min-height:280px;align-items:center;padding:32px 48px;gap:32px;}
+  .banner-text{flex:1;color:#fff;}
+  .banner-text .eyebrow{font-size:13px;font-weight:700;opacity:.85;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+  .banner-text h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.1;margin-bottom:12px;}
+  .banner-text h1 span{color:#FFD700;}
+  .banner-text p{font-size:1rem;opacity:.9;margin-bottom:20px;max-width:380px;}
+  .banner-btn{background:#FF6600;color:#fff;padding:12px 28px;border-radius:8px;font-weight:800;font-size:1rem;display:inline-block;transition:background .2s;}
+  .banner-btn:hover{background:#e55a00;}
+  .banner-badge{background:#FF6600;color:#fff;border-radius:12px;padding:16px 24px;text-align:center;flex-shrink:0;}
+  .banner-badge .pct{font-size:3.5rem;font-weight:900;line-height:1;}
+  .banner-badge .off{font-size:1.3rem;font-weight:800;}
+  .banner-badge .sub{font-size:0.8rem;font-weight:600;opacity:.9;margin-top:4px;}
+  .banner-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .2s;}
+  .dot.active{background:#fff;}
+  .banner-slide-2{background:linear-gradient(120deg,#2d7d32 0%,#43a047 60%,#66bb6a 100%);min-height:280px;align-items:center;padding:32px 48px;gap:32px;}
+  .banner-slide-3{background:linear-gradient(120deg,#6a1b9a 0%,#8e24aa 60%,#ab47bc 100%);min-height:280px;align-items:center;padding:32px 48px;gap:32px;}
+  .banner-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 12px;pointer-events:none;}
+  .arrow{pointer-events:all;background:rgba(255,255,255,.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;}
+  .arrow:hover{background:rgba(255,255,255,.45);}
+
+  /* ── CATEGORY CARDS ── */
+  .section-title{font-size:1.2rem;font-weight:800;color:#222;margin:0 0 16px;padding-left:4px;border-left:4px solid #3aa535;padding-left:12px;}
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;}
+  .cat-card{border-radius:12px;overflow:hidden;aspect-ratio:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;}
+  .cat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.15);}
+  .cat-card .brand{font-size:1.3rem;font-weight:900;color:#fff;margin-bottom:4px;}
+  .cat-card .promo-text{color:rgba(255,255,255,.9);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+  .cat-card .pct{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;}
+  .cat-card .off-tag{color:rgba(255,255,255,.9);font-size:1rem;font-weight:800;}
+  .g1{background:linear-gradient(135deg,#2d8f29,#1a6b17);}
+  .g2{background:linear-gradient(135deg,#1e6b3a,#0d4a25);}
+  .g3{background:linear-gradient(135deg,#1565c0,#0d47a1);}
+  .g4{background:linear-gradient(135deg,#4a1a8a,#2d0d60);}
+  .g5{background:linear-gradient(135deg,#b71c1c,#7f0000);}
+  .g6{background:linear-gradient(135deg,#e65100,#bf360c);}
+  .g7{background:linear-gradient(135deg,#00695c,#004d40);}
+  .g8{background:linear-gradient(135deg,#37474f,#263238);}
+
+  /* ── PRODUCTS ── */
+  .products-section{margin-bottom:32px;}
+  .products-row{display:grid;grid-template-columns:280px 1fr;gap:16px;}
+  .promo-card{border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#1565c0,#1a85d5);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;color:#fff;cursor:pointer;}
+  .promo-card img{width:100%;max-width:220px;margin-bottom:12px;}
+  .promo-card .promo-title{font-size:1.5rem;font-weight:900;line-height:1.1;margin-bottom:8px;}
+  .promo-card .promo-sub{font-size:3rem;font-weight:900;color:#FFD700;line-height:1;}
+  .promo-card .promo-off{font-size:1.1rem;font-weight:700;color:#FFD700;}
+  .promo-card .promo-cat{font-size:.85rem;opacity:.85;margin-top:6px;}
+  .prods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .prod-card{background:#fff;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:box-shadow .2s;border:1px solid #eee;}
+  .prod-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.12);}
+  .prod-badge{position:absolute;top:10px;left:10px;background:#FF6600;color:#fff;font-size:11px;font-weight:800;padding:4px 9px;border-radius:5px;z-index:1;}
+  .prod-img{width:100%;aspect-ratio:1;object-fit:contain;padding:16px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;}
+  .prod-img-placeholder{width:100%;aspect-ratio:1;background:#f0f8f0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;}
+  .prod-img-placeholder .prod-icon{font-size:3rem;}
+  .prod-img-placeholder .prod-label{font-size:.7rem;font-weight:700;color:#3aa535;text-align:center;line-height:1.3;}
+  .prod-info{padding:12px 14px 16px;}
+  .prod-price{font-size:1.25rem;font-weight:900;color:#222;margin-bottom:3px;}
+  .prod-price-old{font-size:.8rem;color:#999;text-decoration:line-through;margin-bottom:4px;}
+  .prod-name{font-size:.8rem;color:#555;line-height:1.4;margin-bottom:8px;}
+  .prod-tags{display:flex;gap:5px;flex-wrap:wrap;}
+  .tag{font-size:.65rem;font-weight:800;padding:3px 7px;border-radius:4px;text-transform:uppercase;}
+  .tag-dest{background:#FFD700;color:#333;}
+  .tag-ult{background:#FF6600;color:#fff;}
+  .tag-new{background:#3aa535;color:#fff;}
+  .tag-cuotas{background:#1565c0;color:#fff;}
+  .prod-btn{width:100%;margin-top:10px;background:#3aa535;color:#fff;padding:9px;border-radius:7px;font-weight:700;font-size:.85rem;transition:background .2s;}
+  .prod-btn:hover{background:#2d8f29;}
+
+  /* ── SECOND ROW PRODUCTS ── */
+  .prod-grid-full{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;}
+
+  /* ── BRANDS BANNER ── */
+  .brands-strip{background:#fff;border-radius:12px;padding:20px 28px;margin-bottom:32px;display:flex;align-items:center;justify-content:space-around;gap:20px;flex-wrap:wrap;border:1px solid #eee;}
+  .brand-logo{font-size:1.1rem;font-weight:900;color:#555;opacity:.7;transition:opacity .2s;cursor:pointer;}
+  .brand-logo:hover{opacity:1;}
+
+  /* ── BENEFITS BAR ── */
+  .benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e0e0e0;border-radius:12px;overflow:hidden;margin-bottom:32px;}
+  .benefit{background:#fff;padding:20px;display:flex;align-items:center;gap:14px;}
+  .benefit-icon{font-size:2rem;flex-shrink:0;}
+  .benefit-text strong{display:block;font-size:.95rem;font-weight:800;color:#222;margin-bottom:2px;}
+  .benefit-text span{font-size:.8rem;color:#666;}
+
+  /* ── FOOTER ── */
+  footer{background:#2d8f29;color:#fff;margin-top:40px;}
+  .footer-top{max-width:1280px;margin:0 auto;padding:40px 24px 32px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;}
+  .footer-brand .logo{font-size:1.8rem;margin-bottom:12px;display:block;}
+  .footer-brand p{font-size:.85rem;opacity:.8;line-height:1.7;max-width:240px;}
+  .footer-col h4{font-size:.9rem;font-weight:800;margin-bottom:14px;opacity:.7;text-transform:uppercase;letter-spacing:.06em;}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .footer-col ul li a{font-size:.875rem;opacity:.85;transition:opacity .2s;}
+  .footer-col ul li a:hover{opacity:1;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.2);padding:16px 24px;text-align:center;font-size:.8rem;opacity:.7;max-width:1280px;margin:0 auto;}
+  .footer-social{display:flex;gap:12px;margin-top:16px;}
+  .footer-social a{background:rgba(255,255,255,.15);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+  .footer-social a:hover{background:rgba(255,255,255,.3);}
+  .footer-social svg{width:18px;height:18px;}
+
+  /* ── FLOATING WPP ── */
+  .wpp-float{position:fixed;bottom:24px;right:24px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);z-index:200;cursor:pointer;transition:transform .2s;}
+  .wpp-float:hover{transform:scale(1.08);}
+  .wpp-float svg{width:30px;height:30px;}
+
+  /* ── CART SIDEBAR ── */
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;display:none;}
+  .cart-overlay.open{display:block;}
+  .cart-panel{position:fixed;right:0;top:0;bottom:0;width:360px;background:#fff;z-index:301;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s;}
+  .cart-panel.open{transform:translateX(0);}
+  .cart-header{padding:20px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;}
+  .cart-header h3{font-size:1.1rem;font-weight:800;}
+  .cart-close{background:none;font-size:1.4rem;color:#666;cursor:pointer;}
+  .cart-body{flex:1;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#aaa;gap:12px;}
+  .cart-body svg{width:60px;height:60px;opacity:.3;}
+  .cart-body p{font-size:.95rem;}
+  .cart-footer{padding:20px;border-top:1px solid #eee;}
+  .cart-checkout{width:100%;background:#3aa535;color:#fff;padding:14px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    .header-social{display:none;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .prods-grid{grid-template-columns:repeat(2,1fr);}
+    .products-row{grid-template-columns:1fr;}
+    .promo-card{display:none;}
+    .prod-grid-full{grid-template-columns:repeat(2,1fr);}
+    .footer-top{grid-template-columns:1fr 1fr;}
+    .benefits{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:600px){
+    .header-inner{flex-wrap:wrap;}
+    .logo{font-size:1.6rem;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .prod-grid-full{grid-template-columns:repeat(2,1fr);}
+    .footer-top{grid-template-columns:1fr;}
+    .benefits{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+  PAGÁ EN HASTA 6 CUOTAS SIN INTERÉS
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">FARMA<span>+</span></div>
+    <div class="search-wrap">
+      <input type="text" placeholder="¿Qué estás buscando?"/>
+      <button>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+    <div class="header-right">
+      <div class="header-social">
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+      <div class="header-action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Mi cuenta
+      </div>
+      <div class="header-action" onclick="openCart()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge">0</span>
+        Mi pedido
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="nav-item active">Ofertas</div>
+    <div class="nav-item">Categorías</div>
+    <div class="nav-item">Dermocósmética</div>
+    <div class="nav-item">Cuidado Personal</div>
+    <div class="nav-item">Bebés</div>
+    <div class="nav-item">Vitaminas</div>
+    <div class="nav-item">Electro</div>
+    <div class="nav-item wpp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Recetas
+    </div>
+    <div class="nav-item revista">REVISTA</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO BANNER -->
+  <div class="banner-wrap">
+    <div class="banner-slide banner-slide-1 active" id="slide-0">
+      <div class="banner-text">
+        <div class="eyebrow">🏥 Tu farmacia de confianza</div>
+        <h1>Hasta <span>50% OFF</span><br/>en Cuidado Personal</h1>
+        <p>Envíos gratis en compras superiores a $150.000. Los mejores precios en salud y bienestar.</p>
+        <a href="#" class="banner-btn">Ver ofertas →</a>
+      </div>
+      <div class="banner-badge">
+        <div class="pct">50</div>
+        <div class="off">% OFF</div>
+        <div class="sub">MEJORES<br/>DESCUENTOS</div>
+      </div>
+    </div>
+    <div class="banner-slide banner-slide-2" id="slide-1">
+      <div class="banner-text">
+        <div class="eyebrow">💊 Vitaminas & Suplementos</div>
+        <h1>Cuida tu salud<br/>con <span>40% OFF</span></h1>
+        <p>Las mejores marcas en vitaminas, minerales y suplementos para toda la familia.</p>
+        <a href="#" class="banner-btn">Ver vitaminas →</a>
+      </div>
+      <div class="banner-badge">
+        <div class="pct">2x1</div>
+        <div class="off">SELECCIONADOS</div>
+        <div class="sub">VITAMINAS<br/>& MINERALES</div>
+      </div>
+    </div>
+    <div class="banner-slide banner-slide-3" id="slide-2">
+      <div class="banner-text">
+        <div class="eyebrow">💄 Dermocósmética</div>
+        <h1>Belleza al mejor<br/>precio <span>30% OFF</span></h1>
+        <p>Vichy, La Roche-Posay, Cetaphil y más marcas premium con descuentos exclusivos.</p>
+        <a href="#" class="banner-btn">Ver cosméticos →</a>
+      </div>
+      <div class="banner-badge">
+        <div class="pct">30</div>
+        <div class="off">% OFF</div>
+        <div class="sub">MARCAS<br/>PREMIUM</div>
+      </div>
+    </div>
+    <div class="banner-arrows">
+      <button class="arrow" onclick="prevSlide()">&#8249;</button>
+      <button class="arrow" onclick="nextSlide()">&#8250;</button>
+    </div>
+    <div class="banner-dots">
+      <div class="dot active" onclick="goSlide(0)"></div>
+      <div class="dot" onclick="goSlide(1)"></div>
+      <div class="dot" onclick="goSlide(2)"></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY CARDS -->
+  <p class="section-title">Categorías con ofertas</p>
+  <div class="cat-grid">
+    <div class="cat-card g1">
+      <div class="brand">Vichy</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">50</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+    <div class="cat-card g2">
+      <div class="brand">Colgate</div>
+      <div class="promo-text">promoción</div>
+      <div class="pct" style="font-size:2rem;">2x1</div>
+      <div class="off-tag">EN SELECCIÓN</div>
+    </div>
+    <div class="cat-card g3">
+      <div class="brand">Maquillajes</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">40</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+    <div class="cat-card g4">
+      <div class="brand">Perfumes</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">20</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+    <div class="cat-card g5">
+      <div class="brand">Dermaglós</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">50</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+    <div class="cat-card g6">
+      <div class="brand">Bebés</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">35</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+    <div class="cat-card g7">
+      <div class="brand">Vitaminas</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">30</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+    <div class="cat-card g8">
+      <div class="brand">Electro</div>
+      <div class="promo-text">hasta</div>
+      <div class="pct">25</div>
+      <div class="off-tag">% OFF</div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS ROW 1 -->
+  <p class="section-title">Ofertas destacadas</p>
+  <div class="products-row" style="margin-bottom:28px;">
+    <div class="promo-card" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">
+      <div class="promo-title">Hasta</div>
+      <div class="promo-sub">50%</div>
+      <div class="promo-off">OFF</div>
+      <div class="promo-cat" style="font-size:1.1rem;font-weight:800;margin-top:10px;">CUIDADO<br/>PERSONAL</div>
+    </div>
+    <div class="prods-grid">
+      <div class="prod-card">
+        <div class="prod-badge">45% OFF</div>
+        <div class="prod-img-placeholder"><div class="prod-icon">🧴</div><div class="prod-label">Crema Hidratante<br/>Dove 250g</div></div>
+        <div class="prod-info">
+          <div class="prod-price-old">$ 8.200</div>
+          <div class="prod-price">$4.510</div>
+          <div class="prod-name">Dove Crema Corporal Hidratación Profunda 250g</div>
+          <div class="prod-tags"><span class="tag tag-dest">DESTACADO</span></div>
+          <button class="prod-btn">Agregar al carrito</button>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-badge">40% OFF</div>
+        <div class="prod-img-placeholder"><div class="prod-icon">🧴</div><div class="prod-label">Shampoo Pantene<br/>Keratina 300ml</div></div>
+        <div class="prod-info">
+          <div class="prod-price-old">$ 6.800</div>
+          <div class="prod-price">$4.080</div>
+          <div class="prod-name">Pantene Pro-V Keratina Shampoo Sin Sal 300ml</div>
+          <div class="prod-tags"><span class="tag tag-dest">DESTACADO</span><span class="tag tag-ult">ÚLTIMOS</span></div>
+          <button class="prod-btn">Agregar al carrito</button>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-badge">40% OFF</div>
+        <div class="prod-img-placeholder"><div class="prod-icon">💆</div><div class="prod-label">Protector TRESemmé<br/>Térmico 120ml</div></div>
+        <div class="prod-info">
+          <div class="prod-price-old">$ 5.200</div>
+          <div class="prod-price">$3.120</div>
+          <div class="prod-name">TRESemmé Protector Térmico Spray 120ml</div>
+          <div class="prod-tags"><span class="tag tag-dest">DESTACADO</span></div>
+          <button class="prod-btn">Agregar al carrito</button>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-badge">40% OFF</div>
+        <div class="prod-img-placeholder"><div class="prod-icon">🧴</div><div class="prod-label">Acondicionador<br/>Pantene Colágeno 250ml</div></div>
+        <div class="prod-info">
+          <div class="prod-price-old">$ 5.800</div>
+          <div class="prod-price">$3.480</div>
+          <div class="prod-name">Pantene Pro-V Colágeno Acondicionador 250ml</div>
+          <div class="prod-tags"><span class="tag tag-ult">ÚLTIMOS</span></div>
+          <button class="prod-btn">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS ROW 2 -->
+  <p class="section-title">Dermocósmética</p>
+  <div class="prod-grid-full">
+    <div class="prod-card">
+      <div class="prod-badge">35% OFF</div>
+      <div class="prod-img-placeholder"><div class="prod-icon">🧪</div><div class="prod-label">Vichy Liftactiv<br/>Serum 30ml</div></div>
+      <div class="prod-info">
+        <div class="prod-price-old">$ 28.500</div>
+        <div class="prod-price">$18.525</div>
+        <div class="prod-name">Vichy Liftactiv Supreme Serum 10 Antiarrugas 30ml</div>
+        <div class="prod-tags"><span class="tag tag-dest">DESTACADO</span><span class="tag tag-new">NUEVO</span></div>
+        <button class="prod-btn">Agregar al carrito</button>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-badge">30% OFF</div>
+      <div class="prod-img-placeholder"><div class="prod-icon">☀️</div><div class="prod-label">La Roche Posay<br/>Anthelios SPF50+</div></div>
+      <div class="prod-info">
+        <div class="prod-price-old">$ 22.000</div>
+        <div class="prod-price">$15.400</div>
+        <div class="prod-name">La Roche-Posay Anthelios XL SPF 50+ Fluido 50ml</div>
+        <div class="prod-tags"><span class="tag tag-dest">DESTACADO</span></div>
+        <button class="prod-btn">Agregar al carrito</button>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-badge">25% OFF</div>
+      <div class="prod-img-placeholder"><div class="prod-icon">🧖</div><div class="prod-label">Cetaphil Crema<br/>Hidratante 250g</div></div>
+      <div class="prod-info">
+        <div class="prod-price-old">$ 14.200</div>
+        <div class="prod-price">$10.650</div>
+        <div class="prod-name">Cetaphil Crema Hidratante para Piel Seca 250g</div>
+        <div class="prod-tags"><span class="tag tag-cuotas">6 CUOTAS S/I</span></div>
+        <button class="prod-btn">Agregar al carrito</button>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-badge">20% OFF</div>
+      <div class="prod-img-placeholder"><div class="prod-icon">💊</div><div class="prod-label">Eucerin UreaRepair<br/>Loción 250ml</div></div>
+      <div class="prod-info">
+        <div class="prod-price-old">$ 18.900</div>
+        <div class="prod-price">$15.120</div>
+        <div class="prod-name">Eucerin UreaRepair Plus Loción Corporal 10% Urea 250ml</div>
+        <div class="prod-tags"><span class="tag tag-new">NUEVO</span><span class="tag tag-cuotas">6 CUOTAS S/I</span></div>
+        <button class="prod-btn">Agregar al carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANDS STRIP -->
+  <div class="brands-strip">
+    <div class="brand-logo">VICHY</div>
+    <div class="brand-logo">La Roche-Posay</div>
+    <div class="brand-logo">EUCERIN</div>
+    <div class="brand-logo">Cetaphil</div>
+    <div class="brand-logo">PANTENE</div>
+    <div class="brand-logo">DOVE</div>
+    <div class="brand-logo">Colgate</div>
+    <div class="brand-logo">Gillette</div>
+    <div class="brand-logo">NUTRILON</div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="benefits">
+    <div class="benefit">
+      <div class="benefit-icon">🚚</div>
+      <div class="benefit-text"><strong>Envío gratis</strong><span>En compras superiores a $150.000</span></div>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">💳</div>
+      <div class="benefit-text"><strong>6 cuotas sin interés</strong><span>Con todas las tarjetas</span></div>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🔒</div>
+      <div class="benefit-text"><strong>Compra segura</strong><span>Datos protegidos 100%</span></div>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">↩️</div>
+      <div class="benefit-text"><strong>Devolución gratis</strong><span>Hasta 30 días corridos</span></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo">FARMA<span>+</span></span>
+      <p>Tu farmacia online de confianza. Los mejores precios en salud, bienestar y belleza para toda tu familia.</p>
+      <div class="footer-social">
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Compras</h4>
+      <ul>
+        <li><a href="#">Cómo comprar</a></li>
+        <li><a href="#">Medios de pago</a></li>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Seguimiento de pedido</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Atención</h4>
+      <ul>
+        <li><a href="#">Preguntas frecuentes</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">Sucursales</a></li>
+        <li><a href="#">Trabaja con nosotros</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Política de privacidad</a></li>
+        <li><a href="#">Defensa al consumidor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 FarmaDemo · Todos los derechos reservados · Diseño web por <strong>Fenz</strong>
+  </div>
+</footer>
+
+<!-- FLOATING WPP -->
+<a href="https://wa.me/5491127473914" class="wpp-float" target="_blank">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h3>🛒 Mi pedido (0)</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <p>Tu carrito está vacío</p>
+  </div>
+  <div class="cart-footer">
+    <button class="cart-checkout">Ir a pagar →</button>
+  </div>
+</div>
+
+<script>
+  // ── BANNER SLIDER ──
+  let current = 0;
+  const slides = document.querySelectorAll('.banner-slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function goSlide(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+  function nextSlide() { goSlide(current + 1); }
+  function prevSlide() { goSlide(current - 1); }
+  setInterval(() => nextSlide(), 4500);
+
+  // ── CART ──
+  function openCart() {
+    document.getElementById('cartOverlay').classList.add('open');
+    document.getElementById('cartPanel').classList.add('open');
+  }
+  function closeCart() {
+    document.getElementById('cartOverlay').classList.remove('open');
+    document.getElementById('cartPanel').classList.remove('open');
+  }
+
+  // ── ADD TO CART (visual feedback) ──
+  document.querySelectorAll('.prod-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const orig = this.textContent;
+      this.textContent = '✓ Agregado';
+      this.style.background = '#1565c0';
+      setTimeout(() => {
+        this.textContent = orig;
+        this.style.background = '';
+      }, 1800);
+    });
+  });
+</script>
+
+</body>
+</html>

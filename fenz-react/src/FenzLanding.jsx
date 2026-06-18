@@ -153,71 +153,27 @@ function Header() {
   );
 }
 
-/* ─── Laptop Mockup SVG ─────────────────────────────────────── */
-function LaptopMockup() {
+/* ─── Hero Image ────────────────────────────────────────────── */
+function HeroImage() {
   return (
     <div style={{ position: "relative" }}>
+      {/* Glow behind image */}
       <div style={{
-        position: "absolute", top: "15%", left: "5%", right: "5%", bottom: "10%",
-        background: "radial-gradient(ellipse, rgba(255,215,0,0.12) 0%, transparent 70%)",
-        filter: "blur(50px)", pointerEvents: "none",
+        position: "absolute", top: "10%", left: "5%", right: "5%", bottom: "5%",
+        background: "radial-gradient(ellipse, rgba(255,215,0,0.10) 0%, transparent 70%)",
+        filter: "blur(55px)", pointerEvents: "none", zIndex: 0,
       }} />
-      <svg viewBox="0 0 580 390" style={{ width: "100%", maxWidth: 580 }}>
-        <defs>
-          <linearGradient id="scrBg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#12182e"/>
-            <stop offset="100%" stopColor="#0a0f1e"/>
-          </linearGradient>
-          <radialGradient id="scrGlow" cx="60%" cy="35%" r="55%">
-            <stop offset="0%" stopColor="rgba(255,215,0,0.12)"/>
-            <stop offset="100%" stopColor="transparent"/>
-          </radialGradient>
-          <clipPath id="scrClip">
-            <rect x="54" y="24" width="472" height="282" rx="4"/>
-          </clipPath>
-        </defs>
-
-        {/* Lid */}
-        <rect x="42" y="12" width="496" height="302" rx="14" fill="#111827" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5"/>
-        {/* Screen */}
-        <rect x="54" y="24" width="472" height="282" rx="4" fill="url(#scrBg)"/>
-        <rect x="54" y="24" width="472" height="282" rx="4" fill="url(#scrGlow)"/>
-
-        {/* UI — navbar */}
-        <rect x="54" y="24" width="472" height="28" fill="rgba(255,255,255,0.03)" clipPath="url(#scrClip)"/>
-        <rect x="74" y="34" width="28" height="8" rx="4" fill="rgba(255,215,0,0.7)"/>
-        <rect x="340" y="31" width="52" height="14" rx="7" fill="rgba(255,215,0,0.8)"/>
-        <rect x="245" y="33" width="40" height="10" rx="5" fill="rgba(255,255,255,0.08)"/>
-        <rect x="295" y="33" width="35" height="10" rx="5" fill="rgba(255,255,255,0.08)"/>
-
-        {/* UI — hero text */}
-        <rect x="78" y="75" width="195" height="14" rx="4" fill="rgba(255,255,255,0.92)"/>
-        <rect x="78" y="97" width="230" height="14" rx="4" fill="rgba(255,255,255,0.92)"/>
-        <rect x="78" y="120" width="180" height="9" rx="3" fill="rgba(255,255,255,0.35)"/>
-        <rect x="78" y="135" width="200" height="9" rx="3" fill="rgba(255,255,255,0.35)"/>
-        <rect x="78" y="162" width="110" height="26" rx="7" fill="#FFD700"/>
-        <rect x="200" y="162" width="90" height="26" rx="7" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
-
-        {/* UI — cards */}
-        {[78, 218, 358].map((x, i) => (
-          <g key={i}>
-            <rect x={x} y="214" width="122" height="76" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>
-            <rect x={x+10} y="225" width="36" height="7" rx="3" fill="rgba(255,215,0,0.65)"/>
-            <rect x={x+10} y="240" width="90" height="6" rx="3" fill="rgba(255,255,255,0.28)"/>
-            <rect x={x+10} y="252" width="70" height="6" rx="3" fill="rgba(255,255,255,0.18)"/>
-            <rect x={x+10} y="264" width="50" height="6" rx="3" fill="rgba(255,255,255,0.12)"/>
-          </g>
-        ))}
-
-        {/* Glow orb */}
-        <circle cx="430" cy="125" r="70" fill="rgba(99,102,241,0.14)" clipPath="url(#scrClip)"/>
-        <circle cx="420" cy="110" r="30" fill="rgba(168,85,247,0.1)" clipPath="url(#scrClip)"/>
-
-        {/* Base */}
-        <rect x="22" y="314" width="536" height="18" rx="4" fill="#1a2235" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-        <rect x="210" y="312" width="160" height="5" rx="2" fill="#111827"/>
-        <rect x="0" y="332" width="580" height="5" rx="2.5" fill="#111827"/>
-      </svg>
+      <img
+        src="hero-ecommerce.png"
+        alt="E-commerce digital"
+        style={{
+          position: "relative", zIndex: 1,
+          width: "100%", maxWidth: 580,
+          borderRadius: 16,
+          boxShadow: "0 8px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06)",
+          display: "block",
+        }}
+      />
     </div>
   );
 }
@@ -320,7 +276,7 @@ function Hero() {
             transform: visible ? "translateY(0)" : "translateY(28px)",
             transition: "opacity 1s 0.25s, transform 1s 0.25s",
           }}>
-            <LaptopMockup />
+            <HeroImage />
           </div>
         )}
       </div>
