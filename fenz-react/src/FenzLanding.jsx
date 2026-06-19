@@ -648,11 +648,11 @@ function Philosophy() {
         </p>
 
         <blockquote style={{
-          fontSize: w < 768 ? "1.3rem" : "clamp(1.4rem,2.6vw,2rem)",
-          fontWeight: 700, color: "#fff", lineHeight: 1.45,
-          letterSpacing: "-0.01em", marginBottom: "1.75rem", fontStyle: "normal",
+          fontSize: w < 768 ? "1rem" : "clamp(1rem,1.8vw,1.35rem)",
+          fontWeight: 400, color: "#fff", lineHeight: 1.75,
+          letterSpacing: "0em", marginBottom: "1.75rem", fontStyle: "normal",
         }}>
-          "Más que código, impulsamos tu evolución. En Fenz, somos arquitectos de soluciones digitales obsesionados con el rendimiento."
+          "En Fenz, somos arquitectos de soluciones digitales de alto impacto, dedicados a transformar visiones de negocio en plataformas web de vanguardia. Fusionamos diseño minimalista, tecnología escalable y una obsesión por la conversión para crear sitios que no solo se ven premium, sino que impulsan resultados reales. Tu éxito es nuestra prioridad: construimos la infraestructura digital que tu empresa necesita para liderar su mercado."
         </blockquote>
 
         {/* Gold divider */}
@@ -663,7 +663,7 @@ function Philosophy() {
         }} />
 
         <p style={{ color: "rgba(200,215,225,0.7)", fontSize: "1rem", lineHeight: 1.75, marginBottom: "2.25rem", maxWidth: 480, margin: "0 auto 2.25rem" }}>
-          Tu visión merece una ejecución impecable. Empecemos a construirla.
+          Tu evolución digital empieza aquí. Hablemos.
         </p>
 
         <a href="https://wa.me/5491127473914" target="_blank" rel="noopener noreferrer" style={{
